@@ -1,4 +1,4 @@
-{ delib, pkgs, ... }:
+{ delib, ... }:
 delib.module {
   name = "programs.pay-respects";
 
@@ -6,7 +6,7 @@ delib.module {
     enable = delib.boolOption myconfig.host.cliFeatured;
   });
 
-  home.ifEnabled = { myconfig, ... }: {
+  home.ifEnabled = { ... }: {
     programs.pay-respects = {
       enable = true;
       enableZshIntegration = true;

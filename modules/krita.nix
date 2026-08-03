@@ -5,7 +5,7 @@ delib.module {
     enable = delib.boolOption myconfig.host.drawFeatured;  
   });
 
-  home.ifEnabled = { cfg, ... }: {
+  home.ifEnabled = { ... }: {
     home.packages = with pkgs; [
       krita
       krita-plugin-gmic

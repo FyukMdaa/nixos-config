@@ -1,11 +1,9 @@
-{ delib, inputs, pkgs, ... }:
+{ delib, ... }:
 delib.module {
   name = "programs.wofi";
-
-  options = delib.moduleOptions ({ myconfig, ... }: {  
-    enable = delib.boolOption myconfig.host.mangowcFeatured;  
+  options = delib.moduleOptions ({ myconfig, ... }: {
+    enable = delib.boolOption (myconfig.host.hyprlandFeatured || myconfig.host.mangowcFeatured);
   });
-
 
   home.ifEnabled = {
   	programs.wofi = {

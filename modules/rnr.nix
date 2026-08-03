@@ -6,7 +6,7 @@ delib.module {
     enable = delib.boolOption myconfig.host.cliFeatured;
   });
 
-  home.ifEnabled = { myconfig, ... }: {
+  home.ifEnabled = { ... }: {
     home.packages = with pkgs; [
       rnr
     ];

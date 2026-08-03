@@ -1,4 +1,4 @@
-{ delib, pkgs, lib, ... }:
+{ delib, lib, ... }:
 delib.module {
   name = "programs.starship";
 

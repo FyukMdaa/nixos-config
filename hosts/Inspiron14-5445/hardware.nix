@@ -1,5 +1,4 @@
-{delib, 
-lib,
+{delib,
 modulesPath,
 ...}:
 delib.host {
@@ -21,17 +20,6 @@ delib.host {
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-amd" ];
       extraModulePackages = [ ];
-    };
-
-    fileSystems."/" = {
-      device = "/dev/disk/by-uuid/ff516841-b219-4ec2-8510-b71d31d17d99";
-      fsType = "ext4";
-    };
-
-    fileSystems."/boot" = {
-      device = "/dev/disk/by-uuid/3A79-8DB7";
-      fsType = "vfat";
-      options = ["fmask=0077" "dmask=0077"];
     };
 
     swapDevices = [];

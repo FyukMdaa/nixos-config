@@ -6,7 +6,7 @@ delib.module {
     enable = delib.boolOption myconfig.host.token2Featured;
   });
 
-  home.ifEnabled = { myconfig, ... }: {
+  home.ifEnabled = { ... }: {
     home.packages = with pkgs; [
       keyroost
     ];

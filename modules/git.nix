@@ -25,6 +25,11 @@ delib.module {
   myconfig.ifEnabled = {
     programs.zeno.snippets = [
       {
+        name = "git add .";
+        keyword = "Gad";
+        snippet = "git add .";
+      }
+      {
 	    name = "git commit";
 	    keyword = "Gcm";
 	    snippet = "git commit -m \"{{commit_message}}\"";

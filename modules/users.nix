@@ -1,6 +1,5 @@
 {
   delib,
-  lib,
   ...
 }:
 delib.module {

@@ -6,7 +6,7 @@ delib.module {
     enable = delib.boolOption myconfig.host.android-devFeatured;
   });
 
-  home.ifEnabled = { myconfig, ... }: {
+  home.ifEnabled = { ... }: {
     home.packages = with pkgs; [
       android-tools
     ];

@@ -1,11 +1,11 @@
-{ delib, pkgs, lib, ... }:
+{ delib, ... }:
 delib.module {
   name = "hardware.open_tablet_driver";
   options = delib.moduleOptions ({ myconfig, ... }: {  
     enable = delib.boolOption myconfig.host.drawFeatured;  
   });
 
-  nixos.ifEnabled = { cfg, ... }: {
+  nixos.ifEnabled = { ... }: {
   	# Enable OpenTabletDriver
   	hardware.opentabletdriver.enable = true;
 

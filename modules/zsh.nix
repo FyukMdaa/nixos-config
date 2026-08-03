@@ -3,14 +3,14 @@ delib.module {
   name = "programs.zsh";
   options = delib.singleEnableOption true;
 
-  nixos.ifEnabled = { cfg, myconfig, ... }: let
+  nixos.ifEnabled = { myconfig, ... }: let
     inherit (myconfig.constants) username;
   in {
     programs.zsh.enable = true;
     users.users.${username}.shell = pkgs.zsh;
   };
 
-  home.ifEnabled = { cfg, myconfig, ... }: let
+  home.ifEnabled = { myconfig, ... }: let
     inherit (myconfig.constants) username;
     homeConfig = if config ? home-manager
                  then config.home-manager.users.${username}
@@ -51,58 +51,62 @@ delib.module {
 
       antidote = {
         enable = true;
-        plugins = [
-          "zdharma-continuum/fast-syntax-highlighting"
-          "hlissner/zsh-autopair kind:defer"
-          "marlonrichert/zsh-autocomplete"
-          "chisui/zsh-nix-shell"
+        plugins = lib.mkMerge [
+          [
+          	"zdharma-continuum/fast-syntax-highlighting"
+          	"hlissner/zsh-autopair kind:defer"
+          	"marlonrichert/zsh-autocomplete"
+          	"chisui/zsh-nix-shell"
+          ]
         ];
       };
 
-      initContent = ''
-        unsetopt WARN_CREATE_GLOBAL
-        setopt PRINT_EIGHT_BIT
-        setopt MARK_DIRS
-        setopt MAGIC_EQUAL_SUBST
-        setopt complete_in_word
+      initContent = lib.mkMerge [ 
+        ''
+          unsetopt WARN_CREATE_GLOBAL
+          setopt PRINT_EIGHT_BIT
+          setopt MARK_DIRS
+          setopt MAGIC_EQUAL_SUBST
+          setopt complete_in_word
 
-        zstyle ':completion:*' cache-path "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
+          zstyle ':completion:*' cache-path "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
 
-        # CORRECTを無効化
-        unsetopt CORRECT
+          # CORRECTを無効化
+          unsetopt CORRECT
 
-        # Shell Options
-        setopt AUTO_CD
-        setopt EXTENDED_GLOB
-        setopt GLOB_DOTS
-        setopt INC_APPEND_HISTORY
-        setopt INTERACTIVE_COMMENTS
-        setopt NO_BEEP
-        setopt PROMPT_SUBST
+          # Shell Options
+          setopt AUTO_CD
+          setopt EXTENDED_GLOB
+          setopt GLOB_DOTS
+          setopt INC_APPEND_HISTORY
+          setopt INTERACTIVE_COMMENTS
+          setopt NO_BEEP
+          setopt PROMPT_SUBST
 
-        # 補完設定
-        zstyle ':completion:*' menu select
-        zstyle ':completion:*' rehash true
-        zstyle ':completion:*' use-cache on
-        zstyle ':completion:*' accept-exact '*(N)'
-        zstyle ':completion:*' verbose yes
-        zstyle ':completion:*:descriptions' format '%%B%%d%%b'
-        zstyle ':completion:*:messages' format '%%d'
-        zstyle ':completion:*:warnings' format 'No matches for: %%d'
-        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+          # 補完設定
+          zstyle ':completion:*' menu select
+          zstyle ':completion:*' rehash true
+          zstyle ':completion:*' use-cache on
+          zstyle ':completion:*' accept-exact '*(N)'
+          zstyle ':completion:*' verbose yes
+          zstyle ':completion:*:descriptions' format '%%B%%d%%b'
+          zstyle ':completion:*:messages' format '%%d'
+          zstyle ':completion:*:warnings' format 'No matches for: %%d'
+          zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-        # zsh-autocompleteの設定
-        zstyle ':autocomplete:*' min-input 2
-        zstyle ':autocomplete:*' max-lines 10
-        zstyle ':autocomplete:*' recent-dirs zoxide
-        zstyle ':autocomplete:tab:*' widget-style menu-select
-        zstyle ':autocomplete:*' list-lines 10
+          # zsh-autocompleteの設定
+          zstyle ':autocomplete:*' min-input 2
+          zstyle ':autocomplete:*' max-lines 10
+          zstyle ':autocomplete:*' recent-dirs zoxide
+          zstyle ':autocomplete:tab:*' widget-style menu-select
+          zstyle ':autocomplete:*' list-lines 10
 
-        # 自作関数
-        function mkcd() {
-          mkdir -p "$1" && cd "$1"
-        }
-      '';
+          # 自作関数
+          function mkcd() {
+            mkdir -p "$1" && cd "$1"
+          }
+        ''
+      ];
     };
 
     home.activation.setupZshDirs = homeConfig.lib.dag.entryAfter ["writeBoundary"] ''

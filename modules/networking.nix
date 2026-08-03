@@ -34,6 +34,9 @@ delib.module {
         inherit (cfg) hosts nameservers;
       };
 
+      # 一部のWi-Fiカードで必要
+      hardware.usb-modeswitch.enable = true;
+
       users.users.${username}.extraGroups = [ "networkmanager" ];
     };
 }

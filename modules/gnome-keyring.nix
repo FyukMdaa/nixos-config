@@ -1,4 +1,4 @@
-{ delib, pkgs, ... }:
+{delib, ...}:
 delib.module {
   name = "services.gnome-keyring";
 
@@ -6,5 +6,6 @@ delib.module {
     services.gnome.gnome-keyring = {
       enable = true;
     };
+    security.polkit.enable = true;
   };
 }
