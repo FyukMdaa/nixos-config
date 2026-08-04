@@ -15,6 +15,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     preservation.url = "github:nix-community/preservation";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     denix = {
       url = "github:yunfachi/denix";
@@ -95,6 +99,7 @@
           then [
             inputs.disko.nixosModules.disko
             inputs.preservation.nixosModules.preservation
+            inputs.lanzaboote.nixosModules.lanzaboote
           ]
           else [];
 

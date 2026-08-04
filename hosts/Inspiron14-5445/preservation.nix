@@ -10,6 +10,7 @@ delib.host {
         "/var/lib/nixos" # UID/GIDや状態情報
         "/var/lib/systemd" # systemd の状態
         "/etc/NetworkManager/system-connections" # Wi-Fi設定など
+        "/etc/secureboot" # SecureBootの署名鍵
       ];
       files = [
         "/etc/machine-id" # システム一意識別子
