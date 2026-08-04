@@ -1,6 +1,7 @@
-{ delib, ... }:
+{delib, ...}:
 delib.host {
   name = "Inspiron14-5445";
+  nixos.systemd.services.systemd-machine-id-commit.enable = false;
   nixos.preservation = {
     enable = true;
     preserveAt."/persist" = {
@@ -15,24 +16,6 @@ delib.host {
         "/etc/ssh/ssh_host_ed25519_key" # SSHホスト鍵
         "/etc/ssh/ssh_host_ed25519_key.pub"
       ];
-
-      # ユーザーレベルの永続化
-      users.fyukmdaa = {
-        directories = [
-          "Downloads"
-          "Documents"
-          "Projects"
-          "Pictures"
-          "Music"
-          "emacs-twist"
-          "ghq"
-          ".ssh"
-          ".local/share/keyrings"
-          ".floorp"
-          ".gnupg"
-        ];
-        files = [];
-      };
     };
   };
 }

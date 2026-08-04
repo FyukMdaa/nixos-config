@@ -1,4 +1,4 @@
-{ delib, ... }:
+{delib, ...}:
 delib.host {
   name = "Inspiron14-5445";
   nixos.boot.initrd = {
@@ -17,7 +17,7 @@ delib.host {
           mount -o subvolid=5 /dev/mapper/crypted /tmp/btrfs-root
 
           if [ -e /tmp/btrfs-root/@root ]; then
-            # 消す前に前回のルートを退避したい場合はコメントアウト解除
+            # 消す前に前回のルートを退避
             # btrfs subvolume snapshot /tmp/btrfs-root/@root /tmp/btrfs-root/@root-old
 
             btrfs subvolume delete /tmp/btrfs-root/@root

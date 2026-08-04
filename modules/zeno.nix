@@ -1,4 +1,9 @@
-{ delib, lib, pkgs, ... }:
+{
+  delib,
+  lib,
+  pkgs,
+  ...
+}:
 delib.module {
   name = "programs.zeno";
 
@@ -20,42 +25,39 @@ delib.module {
     };
   };
 
-  home.ifEnabled = { cfg, ... }: {
+  home.ifEnabled = {cfg, ...}: {
     home.packages = with pkgs; [
       stable.deno
       fzf
     ];
 
     programs.zsh = {
-        antidote = {
-          enable = true;
-          plugins = lib.mkMerge [
-            [ "yuki-yano/zeno.zsh" ]
-          ];
-        };
+      antidote = {
+        enable = true;
+        plugins = ["yuki-yano/zeno.zsh"];
+      };
 
-        initContent = lib.mkMerge [
-          ''
-            export ZENO_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}/zeno"
+      initContent = ''
+        export ZENO_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}/zeno"
 
-            if [[ -n $ZENO_LOADED ]]; then
-                bindkey " " zeno-auto-snippet
-                bindkey '^m' zeno-auto-snippet-and-accept-line
-                bindkey '^i' zeno-completion
-                bindkey '^x^p' zeno-insert-snippet
+        if [[ -n $ZENO_LOADED ]]; then
+            bindkey " " zeno-auto-snippet
+            bindkey '^m' zeno-auto-snippet-and-accept-line
+            bindkey '^i' zeno-completion
+            bindkey '^x^p' zeno-insert-snippet
 
-                bindkey '^x ' zeno-insert-space
-                bindkey '^x^m' accept-line
+            bindkey '^x ' zeno-insert-space
+            bindkey '^x^m' accept-line
 
-                bindkey '^r' zeno-history-selection
-                bindkey '^x^f' zeno-ghq-cd
-            fi
-          ''
-        ];
+            bindkey '^r' zeno-history-selection
+            bindkey '^x^f' zeno-ghq-cd
+        fi
+      '';
     };
 
     xdg.configFile."zeno/config.yml".text = builtins.toJSON (
-      cfg.settings // {
+      cfg.settings
+      // {
         snippets = cfg.snippets;
       }
     );

@@ -90,10 +90,13 @@
           ./overlays
         ];
 
-        extraModules = [
-          inputs.disko.nixosModules.disko
-          inputs.preservation.nixosModules.preservation
-        ];
+        extraModules =
+          if moduleSystem == "nixos"
+          then [
+            inputs.disko.nixosModules.disko
+            inputs.preservation.nixosModules.preservation
+          ]
+          else [];
 
         extensions = with denix.lib.extensions; [
           args
