@@ -1,6 +1,7 @@
 {
   delib,
   pkgs,
+  lib,
   ...
 }:
 delib.module {
@@ -10,33 +11,32 @@ delib.module {
     enable = delib.boolOption myconfig.host.token2Featured;
   });
 
-  nixos.ifEnabled = {...}: {
+  nixos.ifEnabled = {myconfig, ...}: let
+    inherit (myconfig.constants) username;
+
+    pivHookScript = pkgs.writeShellScript "piv-ssh-hook" ''
+      set -eu
+      user="$1"
+      unit="$2"
+      uid=$(${pkgs.coreutils}/bin/id -u "$user")
+      exec ${pkgs.util-linux}/bin/runuser -u "$user" -- \
+        ${pkgs.coreutils}/bin/env \
+        XDG_RUNTIME_DIR=/run/user/"$uid" \
+        DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/"$uid"/bus \
+        ${pkgs.systemd}/bin/systemctl --user --no-block start "$unit"
+    '';
+  in {
     # PC/SC デーモンの有効化
     services.pcscd.enable = true;
 
-    # Token2 用 udev ルール
-    services.udev.extraRules = ''
-      # Token2 FIDO2 / PIN+ security keys (USB vendor 349e).
-      # Grants the logged-in user access over CCID (PC/SC) and raw HID, no sudo needed.
-      SUBSYSTEM=="usb", ATTRS{idVendor}=="349e", TAG+="uaccess", MODE="0660"
-      KERNEL=="hidraw*", ATTRS{idVendor}=="349e", TAG+="uaccess", MODE="0660"
-    '';
-
-    # PAM & セキュリティ設定
+    # セキュリティ設定
     security.polkit.enable = true;
-    security.pam = {
-      u2f = {
-        enable = true;
-        control = "sufficient";
-      };
-    };
-    security.pam.services.sudo.u2fAuth = true;
 
     # GnuPG / SSH 関連設定
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = false;
-      pinentryPackage = pkgs.pinentry-emacs;
+      pinentryPackage = pkgs.pinentry-all;
     };
 
     services.gnome = {
@@ -51,10 +51,19 @@ delib.module {
       }
     '';
 
-    programs.ssh = {
-      startAgent = true;
-      agentPKCS11Whitelist = "/nix/store/*,/run/current-system/sw/lib/*";
-    };
+    # ユーザーの systemd インスタンスを常時起動 (ログインしてなくてもOK)
+    users.users.${username}.linger = true;
+
+    # Token2 抜き差しで ssh-agent へのキー登録/解除を自動化
+    services.udev.extraRules = ''
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="349e", TAG+="uaccess", MODE="0660"
+      KERNEL=="hidraw*", ATTRS{idVendor}=="349e", TAG+="uaccess", MODE="0660"
+
+      ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{PRODUCT}=="349e/*", \
+        RUN+="${pivHookScript} ${username} piv-ssh-add.service"
+      ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{PRODUCT}=="349e/*", \
+        RUN+="${pivHookScript} ${username} piv-ssh-remove.service"
+    '';
 
     environment.systemPackages = with pkgs; [
       acsccid
@@ -69,6 +78,38 @@ delib.module {
   };
 
   home.ifEnabled = {...}: {
+    services.ssh-agent.enable = true;
+
+    systemd.user.services.ssh-agent.Service.ExecStart =
+      lib.mkForce
+      "${pkgs.openssh}/bin/ssh-agent -D -a %t/ssh-agent -P '/run/current-system/sw/lib/*,/nix/store/*'";
+
+    systemd.user.services.piv-ssh-add = {
+      Unit.Description = "Add Token2 PIV key to ssh-agent";
+      Service = {
+        Type = "oneshot";
+        Environment = [
+          "SSH_AUTH_SOCK=%t/ssh-agent"
+          "SSH_ASKPASS=${pkgs.seahorse}/libexec/seahorse/ssh-askpass"
+          "SSH_ASKPASS_REQUIRE=force"
+        ];
+        ExecStart = "${pkgs.openssh}/bin/ssh-add -s /run/current-system/sw/lib/onepin-opensc-pkcs11.so";
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    systemd.user.services.piv-ssh-remove = {
+      Unit.Description = "Remove Token2 PIV key from ssh-agent";
+      Service = {
+        Type = "oneshot";
+        Environment = ["SSH_AUTH_SOCK=%t/ssh-agent"];
+        ExecStart = "${pkgs.openssh}/bin/ssh-add -e /run/current-system/sw/lib/onepin-opensc-pkcs11.so";
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
     services.gnome-keyring = {
       enable = true;
       components = ["secrets"];
