@@ -1,4 +1,4 @@
-{ delib, ... }:
+{delib, ...}:
 delib.host {
   name = "Inspiron14-5445";
 
@@ -14,11 +14,9 @@ delib.host {
   features = [
     "cli"
     "gui"
-    "mangowc"
     "draw"
     "android-dev"
     "token2"
-    "hyprland"
     "niri"
   ];
 

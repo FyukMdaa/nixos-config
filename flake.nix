@@ -50,23 +50,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    mango-ext = {
-      # url = "github:ernestoCruz05/mango-ext";
-      url = "github:FyukMdaa/mango-ext";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprland.url = "github:hyprwm/Hyprland/v0.56.0";
-
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
-
-    hyprland-scroll-overview = {
-      url = "github:yayuuu/hyprland-scroll-overview";
-      inputs.hyprland.follows = "hyprland";
-    };
+    umbriel.url = "github:noctalia-dev/umbriel";
 
     apple-fonts = {
       url = "github:Lyndeno/apple-fonts.nix";
@@ -110,11 +94,9 @@
             args.enable = true;
             hosts.features = {
               enable = true;
-              # 利用したいロールをすべて定義
               features = [
                 "gui"
                 "cli"
-                "mangowc"
                 "hyprland"
                 "niri"
                 "draw"
@@ -124,7 +106,6 @@
                 "android-dev"
                 "token2"
               ];
-              # 各名称に対して "{feature}Featured" というブール値が自動生成される
             };
           })
         ];

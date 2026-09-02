@@ -98,11 +98,21 @@ delib.module {
           "Mod+Shift+L".move-column-right = {};
           "Mod+Shift+J".move-window-down-or-to-workspace-down = {};
           "Mod+Shift+K".move-window-up-or-to-workspace-up = {};
+          # モニターフォーカス移動
+          "Mod+Ctrl+H".focus-monitor-left = {};
+          "Mod+Ctrl+L".focus-monitor-right = {};
+          "Mod+Ctrl+J".focus-monitor-down = {};
+          "Mod+Ctrl+K".focus-monitor-up = {};
+          # モニターワークスペース移動
+          "Mod+Shift+Ctrl+H".move-column-to-monitor-left = {};
+          "Mod+Shift+Ctrl+L".move-column-to-monitor-right = {};
+          "Mod+Shift+Ctrl+J".move-column-to-monitor-down = {};
+          "Mod+Shift+Ctrl+K".move-column-to-monitor-up = {};
 
           # サイズ・レイアウト調整
-          "Mod+R".switch-preset-column-width = {};
+          "Mod+N".switch-preset-column-width = {};
           "Mod+M".maximize-column = {};
-          "Mod+Shift+F".fullscreen-window = {};
+          "Mod+Shift+M".fullscreen-window = {};
           "Mod+F".toggle-window-floating = {};
 
           # ワークスペース操作
@@ -133,23 +143,23 @@ delib.module {
           # 音量・輝度（ロック中でも効くように）
           "XF86AudioRaiseVolume" = {
             _props.allow-when-locked = true;
-            spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"];
+            spawn = ["swayosd-client" "--output-volume" "raise"];
           };
           "XF86AudioLowerVolume" = {
             _props.allow-when-locked = true;
-            spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
+            spawn = ["swayosd-client" "--output-volume" "lower"];
           };
           "XF86AudioMute" = {
             _props.allow-when-locked = true;
-            spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"];
+            spawn = ["swayosd-client" "--output-volume" "mute-toggle"];
           };
           "XF86MonBrightnessUp" = {
             _props.allow-when-locked = true;
-            spawn = ["brightnessctl" "set" "5%+"];
+            spawn = ["swayosd-client" "--brightness" "raise"];
           };
           "XF86MonBrightnessDown" = {
             _props.allow-when-locked = true;
-            spawn = ["brightnessctl" "set" "5%-"];
+            spawn = ["swayosd-client" "--brightness" "lower"];
           };
         };
 
@@ -193,6 +203,8 @@ delib.module {
               }
               {open-focused = false;}
               {open-floating = true;}
+              {default-column-width.fixed = 480;}
+              {default-window-height.fixed = 270;}
             ];
           }
           {

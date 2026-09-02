@@ -4,7 +4,7 @@ delib.module {
 
   options = delib.moduleOptions (
     { myconfig, ... }: {
-      enable = delib.boolOption myconfig.host.mangowcFeatured;
+      enable = delib.boolOption myconfig.host.niriFeatured;
     }
   );
 
