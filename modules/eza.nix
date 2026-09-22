@@ -1,17 +1,15 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.eza";
+{ mulib, host, ... }:
+mulib.module {
+  name = "eza";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
-  
-  home.ifEnabled = {
-  	programs.eza = {
-  	  enable = true;
-  	  enableZshIntegration = true;
-  	  git = true;
-  	  icons = "auto";
-  	};
+  options.enable = [ host.feat.cli ];
+
+  home = {
+    programs.eza = {
+      enable = true;
+      enableZshIntegration = true;
+      git = true;
+      icons = "auto";
+    };
   };
 }

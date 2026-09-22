@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.rip";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "rip";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      rip2
-    ];
+  home = {
+    home.packages = with pkgs; [ rip2 ];
   };
 }

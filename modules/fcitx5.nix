@@ -1,9 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.fcitx5";
-  options = delib.singleEnableOption true;
+{ mulib, pkgs, ... }:
+mulib.module {
+  name = "fcitx5";
 
-  nixos.ifEnabled = {
+  options.enable = mulib.bool.true;
+
+  os = {
     i18n = {
       inputMethod = {
         enable = true;
@@ -20,7 +21,6 @@ delib.module {
       };
     };
 
-    # Set skk dictonaries
     environment.systemPackages = with pkgs.skkDictionaries; [
       l
       jinmei

@@ -1,15 +1,14 @@
-{ delib, inputs, ... }:
-delib.module {
-  name = "programs.floorp";
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.guiFeatured;
-  });
-  home.always = {
-    imports = [
-      inputs.floorp.homeModules.floorp
-    ];
+{ mulib, host, inputs, ... }:
+mulib.module {
+  name = "floorp";
+
+  options.enable = [ host.feat.gui ];
+
+  always.home = {
+    imports = [ inputs.floorp.homeModules.floorp ];
   };
-  home.ifEnabled = {
+
+  home = {
     home.sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1";
     };

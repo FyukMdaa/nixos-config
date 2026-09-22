@@ -1,28 +1,26 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.tealdeer";
+{ mulib, host, ... }:
+mulib.module {
+  name = "tealdeer";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
+  home = {
     programs.tealdeer = {
-    	enable = true;
-    	settings = {
-    	  display = {
-    	    use_pager = true;
-    	    compact = false;
-    	    show_title = true;
-    	  };
-    	  search = {
-    	    languages = ["ja" "en"];
-    	  };
-    	  updates = {
-    	    auto_update = true;
-    	    download_languages = ["ja" "en"];
-    	  };
-    	};
+      enable = true;
+      settings = {
+        display = {
+          use_pager = true;
+          compact = false;
+          show_title = true;
+        };
+        search = {
+          languages = [ "ja" "en" ];
+        };
+        updates = {
+          auto_update = true;
+          download_languages = [ "ja" "en" ];
+        };
+      };
     };
   };
 }

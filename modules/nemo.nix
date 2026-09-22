@@ -1,13 +1,12 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.nemo";
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.guiFeatured;
-  });
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "nemo";
 
-  nixos.ifEnabled.environment.systemPackages = [pkgs.nemo];
+  options.enable = [ host.feat.gui ];
 
-  home.ifEnabled = {
-    home.packages = [pkgs.nemo];
+  os.environment.systemPackages = [ pkgs.nemo ];
+
+  home = {
+    home.packages = [ pkgs.nemo ];
   };
 }

@@ -1,44 +1,40 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.git";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "git";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  nixos.ifEnabled.environment.systemPackages = [pkgs.git];
-  
-  home.ifEnabled = { myconfig, ... }: {
+  os.environment.systemPackages = [ pkgs.git ];
+
+  home = { myconfig, ... }: {
     programs.git = {
       enable = true;
       lfs.enable = true;
-      
+
       settings = {
-      	user.name = myconfig.constants.username;
-      	user.email = myconfig.constants.useremail;
-      	pull.rebase = true;
-      	push.autoSetupRemote = true;
+        user.name = myconfig.constants.username;
+        user.email = myconfig.constants.useremail;
+        pull.rebase = true;
+        push.autoSetupRemote = true;
       };
     };
   };
 
-  myconfig.ifEnabled = {
-    programs.zeno.snippets = [
-      {
-        name = "git add .";
-        keyword = "Gad";
-        snippet = "git add .";
-      }
-      {
-	    name = "git commit";
-	    keyword = "Gcm";
-	    snippet = "git commit -m \"{{commit_message}}\"";
-      }
-      {
-        name = "git push";
-        keyword = "Gps";
-        snippet = "git push";
-      }
-    ];
-  };
+  send.zenoSnippets = [
+    {
+      name = "git add .";
+      keyword = "Gad";
+      snippet = "git add .";
+    }
+    {
+      name = "git commit";
+      keyword = "Gcm";
+      snippet = "git commit -m \"{{commit_message}}\"";
+    }
+    {
+      name = "git push";
+      keyword = "Gps";
+      snippet = "git push";
+    }
+  ];
 }

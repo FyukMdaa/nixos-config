@@ -1,22 +1,23 @@
-{ delib, lib, inputs, ... }:
-delib.module {
+{ mulib, lib, inputs, ... }:
+mulib.module {
   name = "powermanager";
 
-  options.powermanager = with delib; {
-    enable = boolOption false;
-    type = noDefault (lib.mkOption {
+  options = {
+    enable = mulib.bool.false;
+
+    type = lib.mkOption {
       type = lib.types.enum [ "tlp" "auto-cpufreq" ];
       default = "tlp";
-    });
+    };
   };
 
-  nixos.always = { cfg, ... }: {
+  always.os = { opt, ... }: {
     imports = [ inputs.auto-cpufreq.nixosModules.default ];
 
     services.power-profiles-daemon.enable =
-      lib.mkIf cfg.enable (lib.mkForce false);
+      lib.mkIf opt.enable (lib.mkForce false);
 
-    services.tlp = lib.mkIf (cfg.enable && cfg.type == "tlp") {
+    services.tlp = lib.mkIf (opt.enable && opt.type == "tlp") {
       enable = true;
       settings = {
         CPU_SCALING_GOVERNOR_ON_AC    = "performance";
@@ -34,7 +35,7 @@ delib.module {
       };
     };
 
-    programs.auto-cpufreq = lib.mkIf (cfg.enable && cfg.type == "auto-cpufreq") {
+    programs.auto-cpufreq = lib.mkIf (opt.enable && opt.type == "auto-cpufreq") {
       enable = true;
       settings = {
         charger = { governor = "performance"; turbo = "auto"; };

@@ -1,18 +1,10 @@
-{
-  delib,
-  pkgs,
-  ...
-}:
-delib.module {
-  name = "programs.niri";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "niri";
 
-  options = delib.moduleOptions (
-    {myconfig, ...}: {
-      enable = delib.boolOption myconfig.host.niriFeatured;
-    }
-  );
+  options.enable = [ host.feat.niri ];
 
-  nixos.ifEnabled = {
+  os = {
     programs.niri.enable = true;
     environment.systemPackages = with pkgs; [
       nirius
@@ -20,7 +12,7 @@ delib.module {
     ];
   };
 
-  home.ifEnabled = {
+  home = {
     wayland.windowManager.niri = {
       enable = true;
       settings = {
@@ -41,9 +33,9 @@ delib.module {
           };
 
           touchpad = {
-            tap = {};
-            natural-scroll = {};
-            dwt = {};
+            tap = { };
+            natural-scroll = { };
+            dwt = { };
             accel-speed = 0.2;
           };
 
@@ -54,68 +46,61 @@ delib.module {
         };
 
         layout = {
-          always-center-single-column = {};
+          always-center-single-column = { };
           gaps = 8;
           border = {
             width = 2;
             active-color = "#7fc8ff";
             inactive-color = "#505050";
           };
-          focus-ring.off = {};
+          focus-ring.off = { };
           default-column-width._children = [
-            {proportion = 0.5;}
+            { proportion = 0.5; }
           ];
 
           preset-column-widths._children = [
-            {proportion = 0.33333;}
-            {proportion = 0.5;}
-            {proportion = 0.66667;}
+            { proportion = 0.33333; }
+            { proportion = 0.5; }
+            { proportion = 0.66667; }
           ];
         };
 
         binds = {
-          # アプリ起動
           "Mod+Return" = {
             _props.hotkey-overlay-title = "Open a Terminal";
-            spawn = ["ghostty"];
+            spawn = [ "ghostty" ];
           };
           "Mod+D" = {
             _props.hotkey-overlay-title = "run wofi";
-            spawn = ["wofi" "show" "drun"];
+            spawn = [ "wofi" "show" "drun" ];
           };
 
-          "Mod+Q".close-window = {};
-          "Mod+Shift+E".quit = {};
-          "Mod+O".toggle-overview = {};
+          "Mod+Q".close-window = { };
+          "Mod+Shift+E".quit = { };
+          "Mod+O".toggle-overview = { };
 
-          # フォーカス移動
-          "Mod+H".focus-column-left = {};
-          "Mod+L".focus-column-right = {};
-          "Mod+J".focus-window-or-workspace-down = {};
-          "Mod+K".focus-window-or-workspace-up = {};
-          # カラム移動
-          "Mod+Shift+H".move-column-left = {};
-          "Mod+Shift+L".move-column-right = {};
-          "Mod+Shift+J".move-window-down-or-to-workspace-down = {};
-          "Mod+Shift+K".move-window-up-or-to-workspace-up = {};
-          # モニターフォーカス移動
-          "Mod+Ctrl+H".focus-monitor-left = {};
-          "Mod+Ctrl+L".focus-monitor-right = {};
-          "Mod+Ctrl+J".focus-monitor-down = {};
-          "Mod+Ctrl+K".focus-monitor-up = {};
-          # モニターワークスペース移動
-          "Mod+Shift+Ctrl+H".move-column-to-monitor-left = {};
-          "Mod+Shift+Ctrl+L".move-column-to-monitor-right = {};
-          "Mod+Shift+Ctrl+J".move-column-to-monitor-down = {};
-          "Mod+Shift+Ctrl+K".move-column-to-monitor-up = {};
+          "Mod+H".focus-column-left = { };
+          "Mod+L".focus-column-right = { };
+          "Mod+J".focus-window-or-workspace-down = { };
+          "Mod+K".focus-window-or-workspace-up = { };
+          "Mod+Shift+H".move-column-left = { };
+          "Mod+Shift+L".move-column-right = { };
+          "Mod+Shift+J".move-window-down-or-to-workspace-down = { };
+          "Mod+Shift+K".move-window-up-or-to-workspace-up = { };
+          "Mod+Ctrl+H".focus-monitor-left = { };
+          "Mod+Ctrl+L".focus-monitor-right = { };
+          "Mod+Ctrl+J".focus-monitor-down = { };
+          "Mod+Ctrl+K".focus-monitor-up = { };
+          "Mod+Shift+Ctrl+H".move-column-to-monitor-left = { };
+          "Mod+Shift+Ctrl+L".move-column-to-monitor-right = { };
+          "Mod+Shift+Ctrl+J".move-column-to-monitor-down = { };
+          "Mod+Shift+Ctrl+K".move-column-to-monitor-up = { };
 
-          # サイズ・レイアウト調整
-          "Mod+N".switch-preset-column-width = {};
-          "Mod+M".maximize-column = {};
-          "Mod+Shift+M".fullscreen-window = {};
-          "Mod+F".toggle-window-floating = {};
+          "Mod+N".switch-preset-column-width = { };
+          "Mod+M".maximize-column = { };
+          "Mod+Shift+M".fullscreen-window = { };
+          "Mod+F".toggle-window-floating = { };
 
-          # ワークスペース操作
           "Mod+1".focus-workspace = 1;
           "Mod+2".focus-workspace = 2;
           "Mod+3".focus-workspace = 3;
@@ -136,44 +121,41 @@ delib.module {
           "Mod+Shift+8".move-column-to-workspace = 8;
           "Mod+Shift+9".move-column-to-workspace = 9;
 
-          # スクリーンショット
-          "Print".screenshot = {};
-          "Ctrl+Print".screenshot-screen = {};
+          "Print".screenshot = { };
+          "Ctrl+Print".screenshot-screen = { };
 
-          # 音量・輝度（ロック中でも効くように）
           "XF86AudioRaiseVolume" = {
             _props.allow-when-locked = true;
-            spawn = ["swayosd-client" "--output-volume" "raise"];
+            spawn = [ "swayosd-client" "--output-volume" "raise" ];
           };
           "XF86AudioLowerVolume" = {
             _props.allow-when-locked = true;
-            spawn = ["swayosd-client" "--output-volume" "lower"];
+            spawn = [ "swayosd-client" "--output-volume" "lower" ];
           };
           "XF86AudioMute" = {
             _props.allow-when-locked = true;
-            spawn = ["swayosd-client" "--output-volume" "mute-toggle"];
+            spawn = [ "swayosd-client" "--output-volume" "mute-toggle" ];
           };
           "XF86MonBrightnessUp" = {
             _props.allow-when-locked = true;
-            spawn = ["swayosd-client" "--brightness" "raise"];
+            spawn = [ "swayosd-client" "--brightness" "raise" ];
           };
           "XF86MonBrightnessDown" = {
             _props.allow-when-locked = true;
-            spawn = ["swayosd-client" "--brightness" "lower"];
+            spawn = [ "swayosd-client" "--brightness" "lower" ];
           };
         };
 
         _children = [
-          # 出力設定 (名前付き引数は _args)
           {
             output = {
-              _args = ["eDP-1"];
+              _args = [ "eDP-1" ];
               scale = 1.0;
             };
           }
           {
             output = {
-              _args = ["DP-1"];
+              _args = [ "DP-1" ];
               _children = [
                 {
                   position._props = {
@@ -181,18 +163,16 @@ delib.module {
                     y = 0;
                   };
                 }
-                {scale = 1.0;}
+                { scale = 1.0; }
               ];
             };
           }
 
-          # 起動時に実行するアプリ
           {
-            spawn-at-startup._args = ["fcitx5" "-d"];
+            spawn-at-startup._args = [ "fcitx5" "-d" ];
           }
 
-          # ウィンドウルール
-          {prefer-no-csd = {};}
+          { prefer-no-csd = { }; }
           {
             window-rule._children = [
               {
@@ -201,17 +181,17 @@ delib.module {
                   title = "ピクチャーインピクチャー";
                 };
               }
-              {open-focused = false;}
-              {open-floating = true;}
-              {default-column-width.fixed = 480;}
-              {default-window-height.fixed = 270;}
+              { open-focused = false; }
+              { open-floating = true; }
+              { default-column-width.fixed = 480; }
+              { default-window-height.fixed = 270; }
             ];
           }
           {
             window-rule._children = [
-              {geometry-corner-radius = 12;}
-              {clip-to-geometry = true;}
-              {draw-border-with-background = false;}
+              { geometry-corner-radius = 12; }
+              { clip-to-geometry = true; }
+              { draw-border-with-background = false; }
             ];
           }
         ];

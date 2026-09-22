@@ -1,17 +1,10 @@
-{
-  delib,
-  pkgs,
-  lib,
-  ...
-}:
-delib.module {
-  name = "services.securtykey";
+{ mulib, host, pkgs, lib, ... }:
+mulib.module {
+  name = "securitykey";
 
-  options = delib.moduleOptions ({myconfig, ...}: {
-    enable = delib.boolOption myconfig.host.token2Featured;
-  });
+  options.enable = [ host.feat.token2 ];
 
-  nixos.ifEnabled = {myconfig, ...}: let
+  os = { myconfig, ... }: let
     inherit (myconfig.constants) username;
 
     pivHookScript = pkgs.writeShellScript "piv-ssh-hook" ''
@@ -26,13 +19,10 @@ delib.module {
         ${pkgs.systemd}/bin/systemctl --user --no-block start "$unit"
     '';
   in {
-    # PC/SC デーモンの有効化
     services.pcscd.enable = true;
 
-    # セキュリティ設定
     security.polkit.enable = true;
 
-    # GnuPG / SSH 関連設定
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = false;
@@ -44,17 +34,14 @@ delib.module {
       gcr-ssh-agent.enable = false;
     };
 
-    # OpenSC から setcosだけを除外する
     environment.etc."opensc.conf".text = ''
       app default {
           card_drivers = skeid, dtrust, cardos, gemsafeV1, starcos, tcos, oberthur, authentic, iasecc, belpic, entersafe, epass2003, rutoken, rutoken_ecp, myeid, dnie, MaskTech, idprime, esteid2018, esteid2025, srbeid, coolkey, muscle, sc-hsm, PIV-II, cac, itacns, isoApplet, gids, openpgp, default;
       }
     '';
 
-    # ユーザーの systemd インスタンスを常時起動 (ログインしてなくてもOK)
     users.users.${username}.linger = true;
 
-    # Token2 抜き差しで ssh-agent へのキー登録/解除を自動化
     services.udev.extraRules = ''
       SUBSYSTEM=="usb", ATTRS{idVendor}=="349e", TAG+="uaccess", MODE="0660"
       KERNEL=="hidraw*", ATTRS{idVendor}=="349e", TAG+="uaccess", MODE="0660"
@@ -77,7 +64,7 @@ delib.module {
     ];
   };
 
-  home.ifEnabled = {...}: {
+  home = {
     services.ssh-agent.enable = true;
 
     systemd.user.services.ssh-agent.Service.ExecStart =
@@ -103,7 +90,7 @@ delib.module {
       Unit.Description = "Remove Token2 PIV key from ssh-agent";
       Service = {
         Type = "oneshot";
-        Environment = ["SSH_AUTH_SOCK=%t/ssh-agent"];
+        Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
         ExecStart = "${pkgs.openssh}/bin/ssh-add -e /run/current-system/sw/lib/onepin-opensc-pkcs11.so";
         StandardOutput = "journal";
         StandardError = "journal";
@@ -112,7 +99,7 @@ delib.module {
 
     services.gnome-keyring = {
       enable = true;
-      components = ["secrets"];
+      components = [ "secrets" ];
     };
   };
 }

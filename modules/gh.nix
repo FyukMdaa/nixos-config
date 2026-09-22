@@ -1,15 +1,12 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.gh";
+{ mulib, host, ... }:
+mulib.module {
+  name = "gh";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
+  home = {
     programs.gh = {
       enable = true;
-
       settings = {
         git_protocol = "ssh";
       };

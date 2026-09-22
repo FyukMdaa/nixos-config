@@ -1,12 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.ghostty";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "ghostty";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {  
-    enable = delib.boolOption myconfig.host.guiFeatured;  
-  });
+  options.enable = [ host.feat.gui ];
 
-  home.ifEnabled = {
+  home = {
     home.packages = [ pkgs.ghostty ];
   };
 }

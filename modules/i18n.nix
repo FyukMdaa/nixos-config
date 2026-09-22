@@ -1,7 +1,10 @@
-{ delib, ... }:
-delib.module {
+{ mulib, ... }:
+mulib.module {
   name = "i18n";
-  nixos.always = { myconfig, ... }: {
+
+  options.enable = mulib.bool.true;
+
+  always.os = { myconfig, ... }: {
     i18n.defaultLocale = myconfig.constants.mainLocale;
     console.keyMap = myconfig.constants.keymap;
   };

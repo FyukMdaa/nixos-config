@@ -1,10 +1,10 @@
 { mulib, ... }:
 mulib.module {
-  name = "gvfs";
+  name = "firmware";
 
   options.enable = mulib.bool.true;
 
   always.os = {
-    services.gvfs.enable = true;
+    hardware.enableRedistributableFirmware = true;
   };
 }

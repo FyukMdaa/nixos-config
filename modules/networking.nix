@@ -1,43 +1,38 @@
-{
-  delib,
-  host,
-  ...
-}:
-delib.module {
+{ mulib, host, lib, ... }:
+mulib.module {
   name = "networking";
 
-  options.networking = with delib; {
-    nameservers = listOfOption str [
-      "1.1.1.1"
-      "8.8.8.8"
-    ];
-    hosts = attrsOfOption (listOf str) { };
+  options = {
+    enable = mulib.bool.true;
+
+    nameservers = mulib.listOf mulib.type.str [ "1.1.1.1" "8.8.8.8" ];
+    hosts = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.listOf lib.types.str);
+      default = { };
+    };
   };
 
-  nixos.always =
-    { cfg, myconfig, ... }:let
-      inherit (myconfig.constants) username;
-    in {
-      networking = {
-        hostName = host.name;
+  always.os = { opt, myconfig, ... }: let
+    inherit (myconfig.constants) username;
+  in {
+    networking = {
+      hostName = host.name;
 
-        firewall = {
-          enable = true;
-          allowedTCPPorts = [22];
-        };
-
-        networkmanager = {
-          enable = true;
-          dns = "default";
-        };
-
-        inherit (cfg) hosts nameservers;
+      firewall = {
+        enable = true;
+        allowedTCPPorts = [ 22 ];
       };
 
-      # 一部のWi-Fiカードで必要
-      hardware.usb-modeswitch.enable = true;
+      networkmanager = {
+        enable = true;
+        dns = "default";
+      };
 
-      users.users.${username}.extraGroups = [ "networkmanager" ];
+      inherit (opt) hosts nameservers;
     };
-}
 
+    hardware.usb-modeswitch.enable = true;
+
+    users.users.${username}.extraGroups = [ "networkmanager" ];
+  };
+}

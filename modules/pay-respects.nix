@@ -1,12 +1,10 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.pay-respects";
+{ mulib, host, ... }:
+mulib.module {
+  name = "pay-respects";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
+  home = {
     programs.pay-respects = {
       enable = true;
       enableZshIntegration = true;

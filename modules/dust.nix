@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.dust";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "dust";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      dust
-    ];
+  home = {
+    home.packages = with pkgs; [ dust ];
   };
 }

@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.ouch";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "ouch";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      ouch
-    ];
+  home = {
+    home.packages = with pkgs; [ ouch ];
   };
 }

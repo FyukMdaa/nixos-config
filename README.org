@@ -1,7 +1,7 @@
 #+title: NixOS-config
 #+author: FyukMdaa
 * 構成
-denixを使用して構築しています。flake.nixで定義されたfeatureを各モジュールに割り振り、hostで有効にすることで新規モジュール追加時に1ファイルのみの編集で済み、dendritic patternと違い複数の親を持つことが出来ます。
+mulixを使用して構築しています。flake.nixで定義されたfeatureを各モジュールに割り振り、hostで有効にすることで新規モジュール追加時に1ファイルのみの編集で済み、dendritic patternと違い複数の親を持つことが出来ます。
 モジュール追加時にこれはどこに配置するべきかという判断せずに =/modules= に配置するだけですが、構造はきれいに保てている気がします。
 * ビルド
 基本的に =nh= を使用します。

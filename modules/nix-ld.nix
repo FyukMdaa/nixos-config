@@ -1,9 +1,10 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.nix-ld";
-  options = delib.singleEnableOption false;
+{ mulib, ... }:
+mulib.module {
+  name = "nix-ld";
 
-  nixos.ifEnabled = {
+  options.enable = mulib.bool.false;
+
+  os = {
     programs.nix-ld.enable = true;
   };
 }

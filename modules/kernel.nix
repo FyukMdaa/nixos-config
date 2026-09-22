@@ -1,54 +1,53 @@
-{ delib, pkgs, lib, ... }:
-delib.module {
+{ mulib, pkgs, lib, ... }:
+mulib.module {
   name = "kernel";
 
-  options.kernel = with delib; {
-    variant = noDefault (lib.mkOption {
+  options = {
+    enable = mulib.bool.true;
+
+    variant = lib.mkOption {
       type = lib.types.enum [
         "latest" "zen" "xanmod"
         "cachyos-latest" "cachyos-bore" "cachyos-deckify"
       ];
       default = "latest";
       description = "使用するカーネル";
-    });
+    };
 
     useLTO = lib.mkEnableOption "Clang + ThinLTO（cachyos系のみ有効）" // { default = true; };
 
-    archOpt = noDefault (lib.mkOption {
+    archOpt = lib.mkOption {
       type = lib.types.enum [ "generic" "x86_64-v3" "x86_64-v4" "zen4" ];
       default = "generic";
       description = "アーキテクチャ最適化（LTO有効時のみ）";
-    });
+    };
   };
 
-  nixos.always = { cfg, ... }:
-    let
-      isCachyos = lib.hasPrefix "cachyos" cfg.variant;
+  always.os = { opt, ... }: let
+    isCachyos = lib.hasPrefix "cachyos" opt.variant;
 
-      # cachyos系: パッケージ名を組み立てる
-      # linux-cachyos-<variant>[-lto[-<arch>]]
-      cachyosName =
-        let
-          base   = "linux-${cfg.variant}";
-          ltoSfx = if cfg.useLTO then "-lto" else "";
-          archSfx =
-            if cfg.useLTO && cfg.archOpt != "generic"
-            then "-${cfg.archOpt}"
-            else "";
-        in
-          "${base}${ltoSfx}${archSfx}";
+    cachyosName =
+      let
+        base = "linux-${opt.variant}";
+        ltoSfx = if opt.useLTO then "-lto" else "";
+        archSfx =
+          if opt.useLTO && opt.archOpt != "generic"
+          then "-${opt.archOpt}"
+          else "";
+      in
+        "${base}${ltoSfx}${archSfx}";
 
-      cachyosPkg = pkgs.linuxPackagesFor pkgs.cachyosKernels.${cachyosName}
-        or (throw "cachyos kernel not found: ${cachyosName}");
+    cachyosPkg = pkgs.linuxPackagesFor pkgs.cachyosKernels.${cachyosName}
+      or (throw "cachyos kernel not found: ${cachyosName}");
 
-      nonCachyosPkg = {
-        latest = pkgs.linuxPackages_latest;
-        zen    = pkgs.linuxPackages_zen;
-        xanmod = pkgs.linuxPackages_xanmod_latest;
-      }.${cfg.variant};
-    in {
-      boot.kernelPackages =
-        if isCachyos then cachyosPkg
-        else nonCachyosPkg;
-    };
+    nonCachyosPkg = {
+      latest = pkgs.linuxPackages_latest;
+      zen = pkgs.linuxPackages_zen;
+      xanmod = pkgs.linuxPackages_xanmod_latest;
+    }.${opt.variant};
+  in {
+    boot.kernelPackages =
+      if isCachyos then cachyosPkg
+      else nonCachyosPkg;
+  };
 }

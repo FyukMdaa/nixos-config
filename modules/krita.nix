@@ -1,11 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.krita";
-  options = delib.moduleOptions ({ myconfig, ... }: {  
-    enable = delib.boolOption myconfig.host.drawFeatured;  
-  });
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "krita";
 
-  home.ifEnabled = { ... }: {
+  options.enable = [ host.feat.draw ];
+
+  home = {
     home.packages = with pkgs; [
       krita
       krita-plugin-gmic

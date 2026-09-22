@@ -1,20 +1,19 @@
-{
-  delib,
-  ...
-}:
-delib.module {
+{ mulib, host, ... }:
+mulib.module {
   name = "user";
 
-  nixos.always = {myconfig, ...}: let
+  options.enable = mulib.bool.true;
+
+  always.os = { myconfig, ... }: let
     inherit (myconfig.constants) username;
   in {
     users = {
-      groups.${username} = {};
+      groups.${username} = { };
 
       users.${username} = {
         isNormalUser = true;
         home = "/home/${username}";
-        extraGroups = ["wheel"];
+        extraGroups = [ "wheel" ];
       };
     };
   };

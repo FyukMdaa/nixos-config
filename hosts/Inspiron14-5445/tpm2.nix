@@ -1,5 +1,5 @@
-{ delib, ... }:
-delib.host {
+{ mulib, ... }:
+mulib.host {
   name = "Inspiron14-5445";
-  nixos.security.tpm2.enable = true;
+  os.security.tpm2.enable = true;
 }

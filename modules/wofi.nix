@@ -1,11 +1,10 @@
-{delib, ...}:
-delib.module {
-  name = "programs.wofi";
-  options = delib.moduleOptions ({myconfig, ...}: {
-    enable = delib.boolOption (myconfig.host.hyprlandFeatured || myconfig.host.niriFeatured);
-  });
+{ mulib, host, ... }:
+mulib.module {
+  name = "wofi";
 
-  home.ifEnabled = {
+  options.enable = [ [ host.feat.hyprland host.feat.niri ] ];
+
+  home = {
     programs.wofi = {
       enable = true;
       settings = {

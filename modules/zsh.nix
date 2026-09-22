@@ -1,22 +1,17 @@
-{
-  delib,
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-delib.module {
-  name = "programs.zsh";
-  options = delib.singleEnableOption true;
+{ mulib, pkgs, lib, ... }:
+mulib.module {
+  name = "zsh";
 
-  nixos.ifEnabled = {myconfig, ...}: let
+  options.enable = mulib.bool.true;
+
+  os = { myconfig, ... }: let
     inherit (myconfig.constants) username;
   in {
     programs.zsh.enable = true;
     users.users.${username}.shell = pkgs.zsh;
   };
 
-  home.ifEnabled = {myconfig, ...}: let
+  home = { myconfig, config, ... }: let
     inherit (myconfig.constants) username;
     homeConfig =
       if config ? home-manager
@@ -75,10 +70,8 @@ delib.module {
 
         zstyle ':completion:*' cache-path "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
 
-        # CORRECTを無効化
         unsetopt CORRECT
 
-        # Shell Options
         setopt AUTO_CD
         setopt EXTENDED_GLOB
         setopt GLOB_DOTS
@@ -87,7 +80,6 @@ delib.module {
         setopt NO_BEEP
         setopt PROMPT_SUBST
 
-        # 補完設定
         zstyle ':completion:*' menu select
         zstyle ':completion:*' rehash true
         zstyle ':completion:*' use-cache on
@@ -98,40 +90,37 @@ delib.module {
         zstyle ':completion:*:warnings' format 'No matches for: %%d'
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-        # zsh-autocompleteの設定
         zstyle ':autocomplete:*' min-input 2
         zstyle ':autocomplete:*' max-lines 10
         zstyle ':autocomplete:*' recent-dirs zoxide
         zstyle ':autocomplete:tab:*' widget-style menu-select
         zstyle ':autocomplete:*' list-lines 10
 
-        # 自作関数
         function mkcd() {
           mkdir -p "$1" && cd "$1"
         }
       '';
     };
 
-    home.activation.setupZshDirs = homeConfig.lib.dag.entryAfter ["writeBoundary"] ''
+    home.activation.setupZshDirs = homeConfig.lib.dag.entryAfter [ "writeBoundary" ] ''
       $DRY_RUN_CMD mkdir -p "''${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
       $DRY_RUN_CMD mkdir -p "''${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
     '';
   };
 
-  myconfig.ifEnabled = {
-    programs.zeno.enable = true;
-
-    programs.zeno.snippets = [
-      {
-        name = "cd & ls";
-        keyword = "cdl";
-        snippet = "cd {{placeholder}} && ls";
-      }
-      {
-        name = "relode zsh";
-        keyword = "exzs";
-        snippet = "zeno-restart-server && exec zsh";
-      }
-    ];
-  };
+  # denix では myconfig.ifEnabled = { programs.zeno.enable = true; programs.zeno.snippets = [...]; }
+  # mulix では zenoSnippets configName に send する。
+  # zeno 自体の有効化は zeno module の default を true にすることで対応。
+  send.zenoSnippets = [
+    {
+      name = "cd & ls";
+      keyword = "cdl";
+      snippet = "cd {{placeholder}} && ls";
+    }
+    {
+      name = "relode zsh";
+      keyword = "exzs";
+      snippet = "zeno-restart-server && exec zsh";
+    }
+  ];
 }

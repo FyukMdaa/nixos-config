@@ -1,10 +1,10 @@
-{ delib, inputs, lib, pkgs, ... }:
-delib.module {
-  name = "programs.nix-alien";
-  options = delib.singleEnableOption false;
+{ mulib, host, inputs, lib, pkgs, ... }:
+mulib.module {
+  name = "nix-alien";
 
-  nixos.ifEnabled = {
-    # needed for `nix-alien-ld` command
+  options.enable = mulib.bool.false;
+
+  os = {
     programs.nix-ld.enable = lib.mkForce true;
 
     environment.systemPackages = [

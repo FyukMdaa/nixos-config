@@ -1,26 +1,17 @@
-{
-  delib,
-  inputs,
-  pkgs,
-  ...
-}:
-delib.module {
+{ mulib, inputs, pkgs, ... }:
+mulib.module {
   name = "nix";
 
-  home.always = {
-    imports = [
-      inputs.nix-index-database.homeModules.nix-index
-    ];
+  options.enable = mulib.bool.true;
+
+  always.home = {
+    imports = [ inputs.nix-index-database.homeModules.nix-index ];
   };
 
-  nixos.always = {
-    imports = [
-      inputs.nix-index-database.nixosModules.nix-index
-    ];
+  always.os = {
+    imports = [ inputs.nix-index-database.nixosModules.nix-index ];
 
-    nixpkgs.overlays = [
-      inputs.nix-index-database.overlays.nix-index
-    ];
+    nixpkgs.overlays = [ inputs.nix-index-database.overlays.nix-index ];
 
     programs = {
       nix-index-database.comma.enable = true;
@@ -50,12 +41,12 @@ delib.module {
       package = pkgs.lixPackageSets.stable.lix;
 
       settings = {
-        experimental-features = ["nix-command" "flakes" "cgroups"];
+        experimental-features = [ "nix-command" "flakes" "cgroups" ];
         ssl-cert-file = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
         auto-optimise-store = true;
         max-jobs = "auto";
         cores = 0;
-        trusted-users = ["root" "@wheel"];
+        trusted-users = [ "root" "@wheel" ];
         builders-use-substitutes = true;
         use-cgroups = true;
         use-xdg-base-directories = true;
@@ -74,10 +65,6 @@ delib.module {
         ];
       };
 
-      # extraOptions = ''
-      #   !include ${config.sops.secrets.github_token.path}
-      # '';
-
       gc = {
         automatic = true;
         dates = "weekly";
@@ -86,7 +73,7 @@ delib.module {
 
       optimise = {
         automatic = true;
-        dates = ["weekly"];
+        dates = [ "weekly" ];
       };
     };
   };

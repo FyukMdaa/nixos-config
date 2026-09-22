@@ -1,16 +1,14 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.delta";
+{ mulib, host, ... }:
+mulib.module {
+  name = "delta";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
+  home = {
     programs.delta = {
-    	enable = true;
-    	enableGitIntegration = true;
-    	enableJujutsuIntegration = true;
+      enable = true;
+      enableGitIntegration = true;
+      enableJujutsuIntegration = true;
     };
   };
 }

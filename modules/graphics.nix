@@ -1,37 +1,38 @@
-{ delib, pkgs, lib, ... }:
-delib.module {
+{ mulib, pkgs, lib, ... }:
+mulib.module {
   name = "graphics";
 
-  options.graphics = with delib; {
-    enable = boolOption true;
-    type = noDefault (lib.mkOption {
+  options = {
+    enable = mulib.bool.true;
+
+    type = lib.mkOption {
       type = lib.types.nullOr (lib.types.enum [ "amd" "nvidia" "intel" ]);
       default = null;
       description = "GPUの種類。nullの場合は基本設定のみ有効";
-    });
+    };
   };
 
-  nixos.ifEnabled = { cfg, ... }: {
+  os = { opt, ... }: {
     hardware.graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = lib.mkIf (cfg.type == "intel") (with pkgs; [
+      extraPackages = lib.mkIf (opt.type == "intel") (with pkgs; [
         intel-media-driver
         vpl-gpu-rt
         intel-compute-runtime
       ]);
     };
 
-    hardware.amdgpu = lib.mkIf (cfg.type == "amd") {
+    hardware.amdgpu = lib.mkIf (opt.type == "amd") {
       opencl.enable = true;
       initrd.enable = true;
     };
 
-    hardware.nvidia = lib.mkIf (cfg.type == "nvidia") {
+    hardware.nvidia = lib.mkIf (opt.type == "nvidia") {
       modesetting.enable = true;
       nvidiaSettings = true;
     };
 
-    services.xserver.videoDrivers = lib.mkIf (cfg.type == "nvidia") [ "nvidia" ];
+    services.xserver.videoDrivers = lib.mkIf (opt.type == "nvidia") [ "nvidia" ];
   };
 }

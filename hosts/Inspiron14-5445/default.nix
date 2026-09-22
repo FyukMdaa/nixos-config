@@ -1,32 +1,24 @@
-{delib, ...}:
-delib.host {
+# hosts/Inspiron14-5445/default.nix — Identity + base of the host
+{mulib, ...}:
+mulib.host {
   name = "Inspiron14-5445";
+  system = "x86_64-linux";
+  type = "laptop";
+  feat = ["cli" "gui" "draw" "android-dev" "token2" "niri"];
+  role = ["workstation"];
 
-  homeManagerSystem = "x86_64-linux";
-  home.home.stateVersion = "26.05";
-
-  nixos = {
+  os = {
     nixpkgs.hostPlatform = "x86_64-linux";
     system.stateVersion = "26.05";
   };
 
-  type = "laptop";
-  features = [
-    "cli"
-    "gui"
-    "draw"
-    "android-dev"
-    "token2"
-    "niri"
-  ];
+  home = {
+    home.stateVersion = "26.05";
+  };
 
-  shared.myconfig = {
+  send.force.myconfig = {
     boot.loader = "systemd-boot";
-    kernel = {
-      variant = "latest";
-      # useLTO    = true;
-      # archOpt   = "zen4";
-    };
+    kernel.variant = "latest";
     graphics = {
       enable = true;
       type = "amd";
@@ -35,8 +27,6 @@ delib.host {
       enable = true;
       type = "auto-cpufreq";
     };
-    programs = {
-      emacs.enable = true;
-    };
+    emacs.enable = true;
   };
 }

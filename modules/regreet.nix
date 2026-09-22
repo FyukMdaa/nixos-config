@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.regreet";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "regreet";
 
-  options = delib.moduleOptions (
-    { myconfig, ... }: {
-      enable = delib.boolOption myconfig.host.niriFeatured;
-    }
-  );
+  options.enable = [ host.feat.niri ];
 
-  nixos.ifEnabled = {
+  os = {
     services.displayManager.regreet = {
       enable = true;
       font = {
@@ -23,17 +19,10 @@ delib.module {
           theme_name = "Adwaita";
         };
         command = {
-          reboot = [
-            "systemctl"
-            "reboot"
-          ];
-          poweroff = [
-            "systemctl"
-            "poweroff"
-          ];
+          reboot = [ "systemctl" "reboot" ];
+          poweroff = [ "systemctl" "poweroff" ];
         };
       };
     };
   };
-
 }

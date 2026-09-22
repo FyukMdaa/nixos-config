@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.xcp";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "xcp";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      xcp
-    ];
+  home = {
+    home.packages = with pkgs; [ xcp ];
   };
 }

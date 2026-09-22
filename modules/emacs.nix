@@ -1,19 +1,18 @@
-{
-  delib,
-  inputs,
-  ...
-}:
-delib.module {
-  name = "programs.emacs";
-  options = delib.singleEnableOption false;
-  home.always = {
+{ mulib, inputs, ... }:
+mulib.module {
+  name = "emacs";
+
+  options.enable = mulib.bool.false;
+
+  always.home = {
     imports = [ inputs.emacs-config.homeModules.default ];
   };
-  home.ifEnabled = {
-     programs.emacs-twist = {
-     	enable = true;
-     	emacsclient.enable = true;
-     	serviceIntegration.enable = true;
-     };
+
+  home = {
+    programs.emacs-twist = {
+      enable = true;
+      emacsclient.enable = true;
+      serviceIntegration.enable = true;
+    };
   };
 }

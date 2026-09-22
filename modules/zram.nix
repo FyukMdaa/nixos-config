@@ -1,19 +1,18 @@
-{ delib, ... }:
-delib.module {
+{ mulib, ... }:
+mulib.module {
   name = "zram";
-  options.zram = with delib; {
-    enable = boolOption true;
-    zramPercent = intOption 25;
+
+  options = {
+    enable = mulib.bool.true;
+    zramPercent = mulib.int 25;
   };
 
-  nixos.ifEnabled =
-    { cfg, ... }:
-    {
-      zramSwap = {
-        enable = true;
-        algorithm = "zstd";
-        memoryPercent = cfg.zramPercent;
-        priority = 999;
-      };
+  os = { opt, ... }: {
+    zramSwap = {
+      enable = true;
+      algorithm = "zstd";
+      memoryPercent = opt.zramPercent;
+      priority = 999;
     };
+  };
 }

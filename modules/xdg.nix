@@ -1,16 +1,15 @@
-{ delib, pkgs, ... }:
+{ mulib, pkgs, ... }:
+mulib.module {
+  name = "xdg";
 
-delib.module {
-  name = "services.xdg";
+  options.enable = mulib.bool.true;
 
-  options = delib.singleEnableOption true;
-
-  nixos.ifEnabled = { ... }: {
+  os = {
     xdg.portal = {
       enable = true;
-      extraPortals = [pkgs.xdg-desktop-portal-gtk];
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       config = {
-        common.default = ["gtk"];
+        common.default = [ "gtk" ];
       };
     };
     environment.sessionVariables = {
@@ -21,7 +20,7 @@ delib.module {
     };
   };
 
-  home.ifEnabled = { ... }: {
+  home = {
     xdg = {
       enable = true;
 

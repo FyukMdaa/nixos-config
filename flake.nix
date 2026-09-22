@@ -1,5 +1,5 @@
 {
-  description = "Modular configuration of NixOS and Home Manager with Denix";
+  description = "Modular configuration of NixOS and Home Manager with mulix";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -20,10 +20,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    denix = {
-      url = "github:yunfachi/denix";
+    mulix = {
+      url = "github:fyukmdaa/mulix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
 
     sops = {
@@ -66,56 +65,32 @@
     emacs-config.url = "github:fyukmdaa/emacs-config";
   };
 
-  outputs = {denix, ...} @ inputs: let
-    mkConfigurations = moduleSystem:
-      denix.lib.configurations {
-        inherit moduleSystem;
-        homeManagerUser = "fyukmdaa";
-
-        paths = [
-          ./hosts
-          ./modules
-          ./overlays
-        ];
-
-        extraModules =
-          if moduleSystem == "nixos"
-          then [
-            inputs.disko.nixosModules.disko
-            inputs.preservation.nixosModules.preservation
-            inputs.lanzaboote.nixosModules.lanzaboote
-          ]
-          else [];
-
-        extensions = with denix.lib.extensions; [
-          args
-          overlays
-          (base.withConfig {
-            args.enable = true;
-            hosts.features = {
-              enable = true;
-              features = [
-                "gui"
-                "cli"
-                "hyprland"
-                "niri"
-                "draw"
-                "dtm"
-                "server"
-                "video-edit"
-                "android-dev"
-                "token2"
-              ];
-            };
-          })
-        ];
-
-        specialArgs = {
-          inherit inputs;
-        };
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    mulix,
+    home-manager,
+    ...
+  }: let
+    lib = nixpkgs.lib;
+    m = mulix.lib {inherit lib inputs;};
+    cfgs = m.configurations {
+      paths = [./hosts ./modules ./overlays];
+      conditionNames = import ./conditionNames.nix;
+      configNames = import ./configNames.nix {inherit lib;};
+      specialArgs = {inherit inputs;};
+      homeManager = {
+        enable = true;
+        user = "fyukmdaa";
+        useGlobalPkgs = true;
       };
+      extraNixosModules = [
+        inputs.disko.nixosModules.disko
+        inputs.preservation.nixosModules.preservation
+        inputs.lanzaboote.nixosModules.lanzaboote
+      ];
+    };
   in {
-    nixosConfigurations = mkConfigurations "nixos";
-    homeConfigurations = mkConfigurations "home";
+    inherit (cfgs) nixosConfigurations homeConfigurations;
   };
 }

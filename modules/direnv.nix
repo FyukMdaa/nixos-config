@@ -1,18 +1,12 @@
-{
-  delib,
-  pkgs,
-  ...
-}:
-delib.module {
-  name = "programs.direnv";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "direnv";
 
-  options = delib.moduleOptions ({myconfig, ...}: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  nixos.ifEnabled.environment.systemPackages = [pkgs.git];
+  os.environment.systemPackages = [ pkgs.git ];
 
-  home.ifEnabled = {
+  home = {
     programs.direnv = {
       enable = true;
       package = pkgs.direnv;

@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.keyroost";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "keyroost";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.token2Featured;
-  });
+  options.enable = [ host.feat.token2 ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      keyroost
-    ];
+  home = {
+    home.packages = with pkgs; [ keyroost ];
   };
 }

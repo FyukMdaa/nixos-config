@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.android-tools";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "android-tools";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.android-devFeatured;
-  });
+  options.enable = [ host.feat.android-dev ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      android-tools
-    ];
+  home = {
+    home.packages = with pkgs; [ android-tools ];
   };
 }

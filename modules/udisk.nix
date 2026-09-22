@@ -1,12 +1,14 @@
-{ delib, ... }:
-delib.module {
-  name = "services.udisk2";
+{ mulib, ... }:
+mulib.module {
+  name = "udisk";
 
-  nixos.always = {
-  	services.udisks2.enable = true;
-  	
+  options.enable = mulib.bool.true;
+
+  always.os = {
+    services.udisks2.enable = true;
   };
-  home.always = {
-  	services.udiskie.enable = true;
+
+  always.home = {
+    services.udiskie.enable = true;
   };
 }

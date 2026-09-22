@@ -1,22 +1,24 @@
-{ delib, lib, ... }:
-delib.module {
+{ mulib, lib, ... }:
+mulib.module {
   name = "boot";
 
-  options.boot = with delib; {
-    loader = noDefault (lib.mkOption {
+  options = {
+    enable = mulib.bool.true;
+
+    loader = lib.mkOption {
       type = lib.types.enum [ "systemd-boot" "grub" ];
       default = "systemd-boot";
-    });
+    };
   };
 
-  nixos.always = { cfg, ... }: {
+  always.os = { opt, ... }: {
     boot = {
       loader = {
-        systemd-boot = lib.mkIf (cfg.loader == "systemd-boot") {
+        systemd-boot = lib.mkIf (opt.loader == "systemd-boot") {
           enable = true;
           configurationLimit = 10;
         };
-        grub = lib.mkIf (cfg.loader == "grub") {
+        grub = lib.mkIf (opt.loader == "grub") {
           enable = true;
           device = "nodev";
           efiSupport = true;

@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.ghq";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "ghq";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = {
-    home.packages = with pkgs; [
-      ghq
-    ];
+  home = {
+    home.packages = with pkgs; [ ghq ];
   };
 }

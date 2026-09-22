@@ -1,12 +1,10 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.ripgrep";
+{ mulib, host, ... }:
+mulib.module {
+  name = "ripgrep";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
+  home = {
     programs.ripgrep = {
       enable = true;
       arguments = [

@@ -1,16 +1,12 @@
-{ delib, ... }:
-delib.module {
-  name = "hardware.open_tablet_driver";
-  options = delib.moduleOptions ({ myconfig, ... }: {  
-    enable = delib.boolOption myconfig.host.drawFeatured;  
-  });
+{ mulib, host, ... }:
+mulib.module {
+  name = "open-tablet-driver";
 
-  nixos.ifEnabled = { ... }: {
-  	# Enable OpenTabletDriver
-  	hardware.opentabletdriver.enable = true;
+  options.enable = [ host.feat.draw ];
 
-  	# Required by OpenTabletDriver
-  	hardware.uinput.enable = true;
-  	boot.kernelModules = [ "uinput" ];
+  os = {
+    hardware.opentabletdriver.enable = true;
+    hardware.uinput.enable = true;
+    boot.kernelModules = [ "uinput" ];
   };
 }

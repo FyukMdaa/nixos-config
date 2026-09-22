@@ -1,18 +1,16 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.jujutsu";
+{ mulib, host, ... }:
+mulib.module {
+  name = "jujutsu";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { myconfig, ... }: {
+  home = { myconfig, ... }: {
     programs.jujutsu = {
       enable = true;
-      
+
       settings = {
-      	user.name = myconfig.constants.username;
-      	user.email = myconfig.constants.useremail;
+        user.name = myconfig.constants.username;
+        user.email = myconfig.constants.useremail;
       };
     };
   };

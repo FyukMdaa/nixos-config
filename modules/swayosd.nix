@@ -1,11 +1,10 @@
-{delib, ...}:
-delib.module {
-  name = "programs.swayosd";
-  options = delib.moduleOptions ({myconfig, ...}: {
-    enable = delib.boolOption (myconfig.host.hyprlandFeatured || myconfig.host.niriFeatured);
-  });
+{ mulib, host, ... }:
+mulib.module {
+  name = "swayosd";
 
-  home.ifEnabled = {
+  options.enable = [ [ host.feat.hyprland host.feat.niri ] ];
+
+  home = {
     services.swayosd = {
       enable = true;
     };

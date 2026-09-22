@@ -1,10 +1,8 @@
-{delib,
-modulesPath,
-...}:
-delib.host {
+{ mulib, modulesPath, ... }:
+mulib.host {
   name = "Inspiron14-5445";
 
-  nixos = {
+  os = {
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
@@ -22,9 +20,8 @@ delib.host {
       extraModulePackages = [ ];
     };
 
-    swapDevices = [];
+    swapDevices = [ ];
 
     hardware.facter.reportPath = ./facter.json;
   };
-
 }

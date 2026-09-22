@@ -1,16 +1,14 @@
-{ delib, ... }:
-delib.module {
-  name = "programs.zoxide";
+{ mulib, host, ... }:
+mulib.module {
+  name = "zoxide";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
+  home = {
     programs.zoxide = {
       enable = true;
       enableZshIntegration = true;
-      options = ["--cmd z"];
+      options = [ "--cmd z" ];
     };
   };
 }

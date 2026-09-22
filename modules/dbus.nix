@@ -1,8 +1,10 @@
-{ delib, ... }:
-delib.module {
-  name = "services.dbus";
+{ mulib, ... }:
+mulib.module {
+  name = "dbus";
 
-  nixos.always = {
+  options.enable = mulib.bool.true;
+
+  always.os = {
     services.dbus = {
       enable = true;
       implementation = "broker";

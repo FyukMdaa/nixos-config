@@ -1,14 +1,10 @@
-{ delib, pkgs, ... }:
-delib.module {
-  name = "programs.rnr";
+{ mulib, host, pkgs, ... }:
+mulib.module {
+  name = "rnr";
 
-  options = delib.moduleOptions ({ myconfig, ... }: {
-    enable = delib.boolOption myconfig.host.cliFeatured;
-  });
+  options.enable = [ host.feat.cli ];
 
-  home.ifEnabled = { ... }: {
-    home.packages = with pkgs; [
-      rnr
-    ];
+  home = {
+    home.packages = with pkgs; [ rnr ];
   };
 }

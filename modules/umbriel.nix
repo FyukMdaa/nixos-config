@@ -1,31 +1,23 @@
-{
-  delib,
-  pkgs,
-  inputs,
-  ...
-}:
-delib.module {
-  name = "programs.umbriel";
+{ mulib, host, pkgs, inputs, ... }:
+mulib.module {
+  name = "umbriel";
 
-  options = delib.moduleOptions (
-    {myconfig, ...}: {
-      enable = delib.boolOption myconfig.host.niriFeatured;
-    }
-  );
+  options.enable = [ host.feat.niri ];
 
-  nixos.always.imports = [inputs.umbriel.nixosModules.default];
-  nixos.ifEnabled = {
+  always.os = { imports = [ inputs.umbriel.nixosModules.default ]; };
+
+  os = {
     programs.umbriel.enable = true;
   };
 
-  home.always.imports = [inputs.umbriel.homeModules.default];
+  always.home = { imports = [ inputs.umbriel.homeModules.default ]; };
 
-  home.ifEnabled = {
+  home = {
     programs.umbriel = {
       enable = true;
       settings = {
         general = {
-          autostart = ["fcitx5 -d &"];
+          autostart = [ "fcitx5 -d &" ];
         };
         input.keyboard.layout = "jp";
         keybinds = {

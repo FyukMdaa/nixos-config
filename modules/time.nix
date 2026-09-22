@@ -1,7 +1,10 @@
-{ delib, ... }:
-delib.module {
+{ mulib, ... }:
+mulib.module {
   name = "time";
-  nixos.always = { myconfig, ... }: {
+
+  options.enable = mulib.bool.true;
+
+  always.os = { myconfig, ... }: {
     time.timeZone = myconfig.constants.timeZone;
   };
 }
