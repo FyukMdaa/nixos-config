@@ -65,7 +65,7 @@ mulib.host {
 
         # --- データミラー用SSD 2台 ---
         # sdcは先に定義(sda側のmkfs.btrfsからraid1メンバーとして参照されるため)
-        data2 = {
+        data0 = {
           type = "disk";
           device = "/dev/sdc";
           content = {
