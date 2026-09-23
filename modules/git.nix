@@ -1,19 +1,24 @@
-{ mulib, host, pkgs, ... }:
+{
+  mulib,
+  host,
+  pkgs,
+  ...
+}:
 mulib.module {
   name = "git";
 
-  options.enable = [ host.feat.cli ];
+  options.enable = [host.feat.cli];
 
-  os.environment.systemPackages = [ pkgs.git ];
+  os.environment.systemPackages = [pkgs.git];
 
-  home = { myconfig, ... }: {
+  home = {constants, ...}: {
     programs.git = {
       enable = true;
       lfs.enable = true;
 
       settings = {
-        user.name = myconfig.constants.username;
-        user.email = myconfig.constants.useremail;
+        user.name = constants.username;
+        user.email = constants.useremail;
         pull.rebase = true;
         push.autoSetupRemote = true;
       };

@@ -1,8 +1,4 @@
-# modules/constants.nix — 全モジュールで共有する定数
-#
-# denix では myconfig.always で args.shared に送っていたが、
-# mulix では options に宣言すれば自動的に myconfig.constants.X で読める。
-{ mulib, ... }:
+{mulib, ...}:
 mulib.module {
   name = "constants";
 
@@ -21,5 +17,17 @@ mulib.module {
 
     weather = mulib.str "Fukuoka";
     timeZone = mulib.str "Asia/Tokyo";
+  };
+  send.constants = {opt, ...}: {
+    username = opt.username;
+    userfullname = opt.userfullname;
+    useremail = opt.useremail;
+    mainLocale = opt.mainLocale;
+    screenshots = opt.screenshots;
+    keyboardLayout = opt.keyboardLayout;
+    keymap = opt.keymap;
+    keyboardVariant = opt.keyboardVariant;
+    weather = opt.weather;
+    timeZone = opt.timeZone;
   };
 }

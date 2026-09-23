@@ -1,4 +1,10 @@
-{ mulib, pkgs, lib, ... }:
+{
+  mulib,
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 mulib.module {
   name = "graphics";
 
@@ -6,13 +12,13 @@ mulib.module {
     enable = mulib.bool.true;
 
     type = lib.mkOption {
-      type = lib.types.nullOr (lib.types.enum [ "amd" "nvidia" "intel" ]);
+      type = lib.types.nullOr (lib.types.enum ["amd" "nvidia-legacy" "intel"]);
       default = null;
       description = "GPUの種類。nullの場合は基本設定のみ有効";
     };
   };
 
-  os = { opt, ... }: {
+  os = {opt, ...}: {
     hardware.graphics = {
       enable = true;
       enable32Bit = true;
@@ -28,11 +34,13 @@ mulib.module {
       initrd.enable = true;
     };
 
-    hardware.nvidia = lib.mkIf (opt.type == "nvidia") {
+    hardware.nvidia = lib.mkIf (opt.type == "nvidia-legacy") {
       modesetting.enable = true;
       nvidiaSettings = true;
+      open = false;
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
     };
 
-    services.xserver.videoDrivers = lib.mkIf (opt.type == "nvidia") [ "nvidia" ];
+    services.xserver.videoDrivers = lib.mkIf (opt.type == "nvidia-legacy") ["nvidia"];
   };
 }

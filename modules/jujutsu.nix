@@ -1,16 +1,20 @@
-{ mulib, host, ... }:
+{
+  mulib,
+  host,
+  ...
+}:
 mulib.module {
   name = "jujutsu";
 
-  options.enable = [ host.feat.cli ];
+  options.enable = [host.feat.cli];
 
-  home = { myconfig, ... }: {
+  home = {constants, ...}: {
     programs.jujutsu = {
       enable = true;
 
       settings = {
-        user.name = myconfig.constants.username;
-        user.email = myconfig.constants.useremail;
+        user.name = constants.username;
+        user.email = constants.useremail;
       };
     };
   };

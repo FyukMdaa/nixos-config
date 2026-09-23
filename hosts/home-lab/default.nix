@@ -20,12 +20,12 @@ mulib.host {
     kernel.variant = "latest";
     graphics = {
       enable = true;
-      type = "nvidia";
+      type = "nvidia-legacy";
     };
     powermanager = {
       enable = true;
       type = "auto-cpufreq";
     };
-    emacs.enable = true;
+    zram.zramPercent = 75;
   };
 }
