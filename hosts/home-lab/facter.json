@@ -748,7 +748,7 @@
     ],
     "disk": [
       {
-        "index": 29,
+        "index": 30,
         "attached_to": 18,
         "class_list": [
           "disk",
@@ -829,7 +829,7 @@
         ]
       },
       {
-        "index": 30,
+        "index": 31,
         "attached_to": 25,
         "class_list": [
           "disk",
@@ -913,7 +913,7 @@
         "module_alias": "usb:v18A5p0479d0100dc00dsc00dp00ic08isc06ip62in00"
       },
       {
-        "index": 31,
+        "index": 32,
         "attached_to": 8,
         "class_list": [
           "disk",
@@ -989,7 +989,7 @@
         ]
       },
       {
-        "index": 32,
+        "index": 33,
         "attached_to": 25,
         "class_list": [
           "disk",
@@ -1074,7 +1074,7 @@
         "module_alias": "usb:v058Fp6366d0100dc00dsc00dp00ic08isc06ip50in00"
       },
       {
-        "index": 33,
+        "index": 34,
         "attached_to": 8,
         "class_list": [
           "disk",
@@ -1155,7 +1155,7 @@
         ]
       },
       {
-        "index": 34,
+        "index": 35,
         "attached_to": 8,
         "class_list": [
           "disk",
@@ -1317,7 +1317,7 @@
     ],
     "hub": [
       {
-        "index": 36,
+        "index": 37,
         "attached_to": 23,
         "class_list": [
           "usb",
@@ -1339,7 +1339,7 @@
         },
         "vendor": {
           "hex": "1d6b",
-          "name": "Linux 7.1.5 xhci-hcd",
+          "name": "Linux 6.18.41 xhci-hcd",
           "value": 7531
         },
         "device": {
@@ -1349,11 +1349,11 @@
         },
         "revision": {
           "hex": "0000",
-          "name": "7.01",
+          "name": "6.18",
           "value": 0
         },
         "serial": "0000:04:00.0",
-        "model": "Linux 7.1.5 xhci-hcd xHCI Host Controller",
+        "model": "Linux 6.18.41 xhci-hcd xHCI Host Controller",
         "sysfs_id": "/devices/pci0000:00/0000:00:1c.2/0000:04:00.0/usb3/3-0:1.0",
         "sysfs_bus_id": "3-0:1.0",
         "resources": [
@@ -1401,10 +1401,10 @@
         "driver_modules": [
           "usbcore"
         ],
-        "module_alias": "usb:v1D6Bp0002d0701dc09dsc00dp01ic09isc00ip00in00"
+        "module_alias": "usb:v1D6Bp0002d0618dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 39,
+        "index": 40,
         "attached_to": 23,
         "class_list": [
           "usb",
@@ -1426,7 +1426,7 @@
         },
         "vendor": {
           "hex": "1d6b",
-          "name": "Linux 7.1.5 xhci-hcd",
+          "name": "Linux 6.18.41 xhci-hcd",
           "value": 7531
         },
         "device": {
@@ -1436,11 +1436,11 @@
         },
         "revision": {
           "hex": "0000",
-          "name": "7.01",
+          "name": "6.18",
           "value": 0
         },
         "serial": "0000:04:00.0",
-        "model": "Linux 7.1.5 xhci-hcd xHCI Host Controller",
+        "model": "Linux 6.18.41 xhci-hcd xHCI Host Controller",
         "sysfs_id": "/devices/pci0000:00/0000:00:1c.2/0000:04:00.0/usb4/4-0:1.0",
         "sysfs_bus_id": "4-0:1.0",
         "detail": {
@@ -1478,10 +1478,10 @@
         "driver_modules": [
           "usbcore"
         ],
-        "module_alias": "usb:v1D6Bp0003d0701dc09dsc00dp03ic09isc00ip00in00"
+        "module_alias": "usb:v1D6Bp0003d0618dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 40,
+        "index": 41,
         "attached_to": 25,
         "class_list": [
           "usb",
@@ -1503,7 +1503,7 @@
         },
         "vendor": {
           "hex": "1d6b",
-          "name": "Linux 7.1.5 xhci-hcd",
+          "name": "Linux 6.18.41 xhci-hcd",
           "value": 7531
         },
         "device": {
@@ -1513,11 +1513,11 @@
         },
         "revision": {
           "hex": "0000",
-          "name": "7.01",
+          "name": "6.18",
           "value": 0
         },
         "serial": "0000:00:14.0",
-        "model": "Linux 7.1.5 xhci-hcd xHCI Host Controller",
+        "model": "Linux 6.18.41 xhci-hcd xHCI Host Controller",
         "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb1/1-0:1.0",
         "sysfs_bus_id": "1-0:1.0",
         "resources": [
@@ -1565,10 +1565,10 @@
         "driver_modules": [
           "usbcore"
         ],
-        "module_alias": "usb:v1D6Bp0002d0701dc09dsc00dp01ic09isc00ip00in00"
+        "module_alias": "usb:v1D6Bp0002d0618dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 42,
+        "index": 43,
         "attached_to": 25,
         "class_list": [
           "usb",
@@ -1590,7 +1590,7 @@
         },
         "vendor": {
           "hex": "1d6b",
-          "name": "Linux 7.1.5 xhci-hcd",
+          "name": "Linux 6.18.41 xhci-hcd",
           "value": 7531
         },
         "device": {
@@ -1600,11 +1600,11 @@
         },
         "revision": {
           "hex": "0000",
-          "name": "7.01",
+          "name": "6.18",
           "value": 0
         },
         "serial": "0000:00:14.0",
-        "model": "Linux 7.1.5 xhci-hcd xHCI Host Controller",
+        "model": "Linux 6.18.41 xhci-hcd xHCI Host Controller",
         "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb2/2-0:1.0",
         "sysfs_bus_id": "2-0:1.0",
         "detail": {
@@ -1642,13 +1642,13 @@
         "driver_modules": [
           "usbcore"
         ],
-        "module_alias": "usb:v1D6Bp0003d0701dc09dsc00dp03ic09isc00ip00in00"
+        "module_alias": "usb:v1D6Bp0003d0618dc09dsc00dp03ic09isc00ip00in00"
       }
     ],
     "keyboard": [
       {
-        "index": 41,
-        "attached_to": 36,
+        "index": 42,
+        "attached_to": 37,
         "class_list": [
           "keyboard",
           "usb"
@@ -1749,8 +1749,8 @@
         "module_alias": "usb:v1A2Cp4324d0111dc00dsc00dp00ic03isc01ip01in00"
       },
       {
-        "index": 44,
-        "attached_to": 40,
+        "index": 45,
+        "attached_to": 41,
         "class_list": [
           "keyboard",
           "usb"
@@ -1871,7 +1871,7 @@
         "resources": [
           {
             "type": "phys_mem",
-            "range": 8053063680
+            "range": 25769803776
           }
         ]
       }
@@ -2110,8 +2110,8 @@
     ],
     "mouse": [
       {
-        "index": 38,
-        "attached_to": 40,
+        "index": 39,
+        "attached_to": 41,
         "class_list": [
           "mouse",
           "usb"
@@ -2301,7 +2301,7 @@
     ],
     "network_interface": [
       {
-        "index": 45,
+        "index": 46,
         "attached_to": 22,
         "class_list": [
           "network_interface"
@@ -2342,7 +2342,7 @@
         ]
       },
       {
-        "index": 46,
+        "index": 47,
         "attached_to": 0,
         "class_list": [
           "network_interface"
@@ -2937,10 +2937,52 @@
     "system": {
       "form_factor": "desktop"
     },
+    "unknown": [
+      {
+        "index": 29,
+        "attached_to": 0,
+        "class_list": [
+          "unknown"
+        ],
+        "base_class": {
+          "hex": "0007",
+          "name": "Communication controller",
+          "value": 7
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Serial controller",
+          "value": 0
+        },
+        "pci_interface": {
+          "hex": "0002",
+          "name": "16550",
+          "value": 2
+        },
+        "device": {
+          "hex": "0000",
+          "name": "16550A",
+          "value": 0
+        },
+        "model": "16550A",
+        "unix_device_names": [
+          "/dev/ttyS0"
+        ],
+        "resources": [
+          {
+            "type": "io",
+            "base": 1016,
+            "range": 0,
+            "enabled": true,
+            "access": "read_write"
+          }
+        ]
+      }
+    ],
     "usb": [
       {
-        "index": 35,
-        "attached_to": 36,
+        "index": 36,
+        "attached_to": 37,
         "class_list": [
           "usb",
           "unknown"
@@ -2983,9 +3025,6 @@
         "sysfs_id": "/devices/pci0000:00/0000:00:1c.2/0000:04:00.0/usb3/3-2/3-2:1.1",
         "sysfs_bus_id": "3-2:1.1",
         "unix_device_names": [
-          "/dev/input/by-id/usb-SEM_USB_Keyboard-event-if01",
-          "/dev/input/by-path/pci-0000:04:00.0-usb-0:2:1.1-event",
-          "/dev/input/by-path/pci-0000:04:00.0-usbv2-0:2:1.1-event",
           "/dev/input/event7"
         ],
         "resources": [
@@ -3423,7 +3462,7 @@
     ],
     "group_associations": [
       {
-        "handle": 29,
+        "handle": 32,
         "name": "$MEI",
         "handles": [
           0
@@ -3458,8 +3497,8 @@
         "handle": 24,
         "array_handle": 19,
         "start_address": "0x0",
-        "end_address": "0x200000000",
-        "part_width": 1
+        "end_address": "0x600000000",
+        "part_width": 4
       }
     ],
     "memory_device": [
@@ -3467,13 +3506,13 @@
         "handle": 20,
         "location": "ChannelA-DIMM0",
         "bank_location": "BANK 0",
-        "manufacturer": "",
-        "part_number": "",
+        "manufacturer": "SK Hynix",
+        "part_number": "HMA851U6JJR6N-VK",
         "array_handle": 19,
         "error_handle": 65534,
-        "width": 0,
+        "width": 64,
         "ecc_bits": 0,
-        "size": 0,
+        "size": 4194304,
         "form_factor": {
           "hex": "0009",
           "name": "DIMM",
@@ -3481,12 +3520,14 @@
         },
         "set": 0,
         "memory_type": {
-          "hex": "0002",
-          "name": "Unknown",
-          "value": 2
+          "hex": "001a",
+          "name": "Other",
+          "value": 26
         },
-        "memory_type_details": null,
-        "speed": 0
+        "memory_type_details": [
+          "Synchronous"
+        ],
+        "speed": 2400
       },
       {
         "handle": 21,
@@ -3513,19 +3554,19 @@
         "memory_type_details": [
           "Synchronous"
         ],
-        "speed": 2667
+        "speed": 2400
       },
       {
         "handle": 22,
         "location": "ChannelB-DIMM0",
         "bank_location": "BANK 2",
-        "manufacturer": "",
-        "part_number": "",
+        "manufacturer": "SK Hynix",
+        "part_number": "HMA851U6JJR6N-VK",
         "array_handle": 19,
         "error_handle": 65534,
-        "width": 0,
+        "width": 64,
         "ecc_bits": 0,
-        "size": 0,
+        "size": 4194304,
         "form_factor": {
           "hex": "0009",
           "name": "DIMM",
@@ -3533,24 +3574,26 @@
         },
         "set": 0,
         "memory_type": {
-          "hex": "0002",
-          "name": "Unknown",
-          "value": 2
+          "hex": "001a",
+          "name": "Other",
+          "value": 26
         },
-        "memory_type_details": null,
-        "speed": 0
+        "memory_type_details": [
+          "Synchronous"
+        ],
+        "speed": 2400
       },
       {
         "handle": 23,
         "location": "ChannelB-DIMM1",
         "bank_location": "BANK 3",
-        "manufacturer": "",
-        "part_number": "",
+        "manufacturer": "Micron",
+        "part_number": "8ATF1G64AZ-3G2R1",
         "array_handle": 19,
         "error_handle": 65534,
-        "width": 0,
+        "width": 64,
         "ecc_bits": 0,
-        "size": 0,
+        "size": 8388608,
         "form_factor": {
           "hex": "0009",
           "name": "DIMM",
@@ -3558,24 +3601,56 @@
         },
         "set": 0,
         "memory_type": {
-          "hex": "0002",
-          "name": "Unknown",
-          "value": 2
+          "hex": "001a",
+          "name": "Other",
+          "value": 26
         },
-        "memory_type_details": null,
-        "speed": 0
+        "memory_type_details": [
+          "Synchronous"
+        ],
+        "speed": 2400
       }
     ],
     "memory_device_mapped_address": [
       {
         "handle": 25,
-        "memory_device_handle": 21,
+        "memory_device_handle": 20,
         "array_map_handle": 24,
         "start_address": "0x0",
-        "end_address": "0x200000000",
+        "end_address": "0x100000000",
         "row_position": 1,
         "interleave_position": 1,
-        "interleave_depth": 1
+        "interleave_depth": 2
+      },
+      {
+        "handle": 26,
+        "memory_device_handle": 21,
+        "array_map_handle": 24,
+        "start_address": "0x200000000",
+        "end_address": "0x400000000",
+        "row_position": 1,
+        "interleave_position": 1,
+        "interleave_depth": 2
+      },
+      {
+        "handle": 27,
+        "memory_device_handle": 22,
+        "array_map_handle": 24,
+        "start_address": "0x100000000",
+        "end_address": "0x200000000",
+        "row_position": 1,
+        "interleave_position": 2,
+        "interleave_depth": 2
+      },
+      {
+        "handle": 28,
+        "memory_device_handle": 23,
+        "array_map_handle": 24,
+        "start_address": "0x400000000",
+        "end_address": "0x600000000",
+        "row_position": 1,
+        "interleave_position": 2,
+        "interleave_depth": 2
       }
     ],
     "processor": [

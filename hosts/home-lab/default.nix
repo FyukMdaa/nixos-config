@@ -3,7 +3,7 @@ mulib.host {
   name = "home-lab";
   system = "x86_64-linux";
   type = "server";
-  feat = ["cli" "gui" "token2" "niri"];
+  feat = ["cli"];
   role = ["workstation"];
 
   os = {
@@ -26,6 +26,5 @@ mulib.host {
       enable = true;
       type = "auto-cpufreq";
     };
-    zram.zramPercent = 75;
   };
 }
