@@ -1,26 +1,34 @@
-{ mulib, pkgs, lib, ... }:
+{
+  mulib,
+  pkgs,
+  lib,
+  zeno,
+  ...
+}:
 mulib.module {
   name = "zeno";
 
-  # denix では default false で zsh から myconfig.ifEnabled で有効化していたが、
-  # zsh は常に有効なので zeno も default true にする。
   options = {
-    enable = mulib.bool.true;
+    enable = [(zeno.enable == true)];
 
     snippets = lib.mkOption {
       type = lib.types.listOf lib.types.attrs;
-      default = [ ];
+      default = [];
       description = "List of zeno snippets added from various modules.";
     };
 
     settings = lib.mkOption {
       type = lib.types.attrs;
-      default = { };
+      default = {};
       description = "Extra global settings for zeno.";
     };
   };
 
-  home = { opt, zenoSnippets, ... }: {
+  home = {
+    opt,
+    zenoSnippets,
+    ...
+  }: {
     home.packages = with pkgs; [
       stable.deno
       fzf
@@ -29,7 +37,7 @@ mulib.module {
     programs.zsh = {
       antidote = {
         enable = true;
-        plugins = [ "yuki-yano/zeno.zsh" ];
+        plugins = ["yuki-yano/zeno.zsh"];
       };
 
       initContent = ''
@@ -52,7 +60,7 @@ mulib.module {
 
     # zenoSnippets configName で他モジュールから送られたスニペットを集約
     xdg.configFile."zeno/config.yml".text = builtins.toJSON (
-      opt.settings // { snippets = zenoSnippets; }
+      opt.settings // {snippets = zenoSnippets;}
     );
   };
 }

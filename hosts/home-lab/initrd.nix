@@ -1,10 +1,9 @@
-{ mulib, ... }:
+{mulib, ...}:
 mulib.host {
   name = "home-lab";
 
   os.boot.initrd = {
     systemd = {
-      enable = true;
       services.btrfs-rollback = {
         description = "Rollback Btrfs root subvolume";
         wantedBy = ["initrd.target"];

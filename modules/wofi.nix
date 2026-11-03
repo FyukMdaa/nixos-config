@@ -1,8 +1,13 @@
-{ mulib, host, ... }:
+{
+  mulib,
+  wmconfig,
+  host,
+  ...
+}:
 mulib.module {
   name = "wofi";
 
-  options.enable = [ [ host.feat.hyprland host.feat.niri ] ];
+  options.enable = [(host.feat.wm) (wmconfig.launcher == "wofi")];
 
   home = {
     programs.wofi = {
@@ -81,4 +86,8 @@ mulib.module {
       '';
     };
   };
+  # derived contribution (Phase 2): ネストキーで書き込みpath (.launcher) を
+  # 静的宣言したリーフ関数。値は wmconfig.launcher の宣言に追従し、
+  # 依存グラフにも .launcher の書き込みpathが記録される。
+  send.cmdname.launcher = {wmconfig, ...}: "${wmconfig.launcher} show drun";
 }

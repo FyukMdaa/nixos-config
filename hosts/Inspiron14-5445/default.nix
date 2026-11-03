@@ -4,7 +4,7 @@ mulib.host {
   name = "Inspiron14-5445";
   system = "x86_64-linux";
   type = "laptop";
-  feat = ["cli" "gui" "draw" "android-dev" "token2" "niri"];
+  feat = ["cli" "gui" "draw" "android-dev" "token2" "wm"];
   role = ["workstation"];
 
   os = {

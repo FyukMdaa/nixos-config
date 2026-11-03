@@ -24,7 +24,7 @@ mulib.host {
     };
     powermanager = {
       enable = true;
-      type = "auto-cpufreq";
+      type = "tlp";
     };
   };
 }

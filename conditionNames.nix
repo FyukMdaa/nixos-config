@@ -15,15 +15,13 @@
   feat = [
     "gui"
     "cli"
-    "mangowc"
-    "hyprland"
-    "niri"
     "draw"
     "dtm"
     "server"
     "video-edit"
     "android-dev"
     "token2"
+    "wm"
   ];
 
   role = [

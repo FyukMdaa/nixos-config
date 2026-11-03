@@ -3,7 +3,12 @@
 # denix では delib.overlayModule で targets = ["nixos" "home"] を指定していたが、
 # mulix では mulib.overlay 1つで全 module-system に適用される。
 # (m.configurations が overlayModule として NixOS/HM に注入する)
-{ mulib, inputs, lib, ... }:
+{
+  mulib,
+  inputs,
+  lib,
+  ...
+}:
 mulib.overlay {
   name = "pkgs-overlay";
   overlay = lib.composeManyExtensions [

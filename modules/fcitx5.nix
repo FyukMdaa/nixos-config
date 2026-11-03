@@ -1,8 +1,13 @@
-{ mulib, pkgs, ... }:
+{
+  mulib,
+  pkgs,
+  host,
+  ...
+}:
 mulib.module {
   name = "fcitx5";
 
-  options.enable = mulib.bool.true;
+  options.enable = [host.feat.gui];
 
   os = {
     i18n = {
@@ -10,7 +15,7 @@ mulib.module {
         enable = true;
         type = "fcitx5";
         fcitx5 = {
-          addons = with pkgs; [
+          addons = with pkgs.stable; [
             fcitx5-gtk
             fcitx5-skk
             fcitx5-mozc

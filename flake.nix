@@ -42,8 +42,6 @@
 
     musnix.url = "github:musnix/musnix";
 
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,6 +57,16 @@
     floorp.url = "github:fyukmdaa/floorp-flake";
 
     fmpkgs.url = "github:fyukmdaa/fmnixpkgs";
+
+    nix-alien = {
+      url = "github:thiagokokada/nix-alien";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     twist.url = "github:emacs-twist/twist.nix";
 
@@ -80,7 +88,7 @@
       configNames = import ./configNames.nix {inherit lib;};
       specialArgs = {inherit inputs;};
       homeManager = {
-        enable = true;
+        embed = true;
         user = "fyukmdaa";
         useGlobalPkgs = true;
       };

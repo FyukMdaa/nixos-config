@@ -1,8 +1,13 @@
-{ mulib, host, pkgs, ... }:
+{
+  mulib,
+  host,
+  pkgs,
+  ...
+}:
 mulib.module {
   name = "regreet";
 
-  options.enable = [ host.feat.niri ];
+  options.enable = [host.feat.wm];
 
   os = {
     services.displayManager.regreet = {
@@ -19,8 +24,8 @@ mulib.module {
           theme_name = "Adwaita";
         };
         command = {
-          reboot = [ "systemctl" "reboot" ];
-          poweroff = [ "systemctl" "poweroff" ];
+          reboot = ["systemctl" "reboot"];
+          poweroff = ["systemctl" "poweroff"];
         };
       };
     };

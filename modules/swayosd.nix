@@ -1,8 +1,12 @@
-{ mulib, host, ... }:
+{
+  mulib,
+  host,
+  ...
+}:
 mulib.module {
   name = "swayosd";
 
-  options.enable = [ [ host.feat.hyprland host.feat.niri ] ];
+  options.enable = [host.feat.wm];
 
   home = {
     services.swayosd = {

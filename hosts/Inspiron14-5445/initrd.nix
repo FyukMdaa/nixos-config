@@ -1,10 +1,9 @@
-{ mulib, ... }:
+{mulib, ...}:
 mulib.host {
   name = "Inspiron14-5445";
 
   os.boot.initrd = {
     systemd = {
-      enable = true;
       services.btrfs-rollback = {
         description = "Rollback Btrfs root subvolume";
         wantedBy = ["initrd.target"];
