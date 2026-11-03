@@ -9,6 +9,19 @@ mulib.host {
   os = {
     nixpkgs.hostPlatform = "x86_64-linux";
     system.stateVersion = "26.05";
+
+    services.openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        PubkeyAuthentication = true;
+      };
+    };
+    users.users.fyukmdaa.openssh.authorizedKeys.keys = [
+      "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPZHuiQlgDv2bXHhmdtkYwrwxnbPPpk3qZmZRNX+xn3CnJWTwVGHmVinuNRSZUEsG2Q9iYTGL7gkPvy+CaJlP/s= PIV AUTH pubkey"
+    ];
   };
 
   home = {
