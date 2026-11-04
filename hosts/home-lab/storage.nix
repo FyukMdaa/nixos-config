@@ -6,16 +6,25 @@ mulib.host {
     users.groups.media = { };
     users.users.fyukmdaa.extraGroups = [ "media" ];
 
-    systemd.tmpfiles.rules = [
-      "d /srv/services 0711 root root - -"
-      "d /srv/db 0711 root root - -"
+    systemd.services.create-media-directories = {
+      description = "Create shared media directories";
+      requires = [ "srv-media.mount" ];
+      after = [ "srv-media.mount" ];
+      wantedBy = [ "multi-user.target" ];
 
-      "d /srv/media/files 2770 fyukmdaa media - -"
-      "d /srv/media/photos 2750 fyukmdaa media - -"
-      "d /srv/media/photos/library 2750 fyukmdaa media - -"
-      "d /srv/media/videos 2750 fyukmdaa media - -"
-      "d /srv/media/music 2750 fyukmdaa media - -"
-      "d /srv/media/downloads 2770 fyukmdaa media - -"
-    ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+
+      script = ''
+        install -d -o fyukmdaa -g media -m 2770 /srv/media/files
+        install -d -o fyukmdaa -g media -m 2750 /srv/media/photos
+        install -d -o fyukmdaa -g media -m 2750 /srv/media/photos/library
+        install -d -o fyukmdaa -g media -m 2750 /srv/media/videos
+        install -d -o fyukmdaa -g media -m 2750 /srv/media/music
+        install -d -o fyukmdaa -g media -m 2770 /srv/media/downloads
+      '';
+    };
   };
 }
